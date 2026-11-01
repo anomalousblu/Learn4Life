@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learn4Life — Kết nối gia sư & gia đình</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="shell nav">
+            <a href="#home" class="brand">learn<span>4</span>life<span>.</span></a>
+            <nav class="links">
+                <a href="#classes" onclick="checkPolicyAndNavigate(event, '#classes')">Tìm lớp</a>
+                <a href="#profile" onclick="checkPolicyAndNavigate(event, '#profile')">Hồ sơ gia sư</a>
+                <a href="#plans" onclick="checkPolicyAndNavigate(event, '#plans')">Gói dịch vụ</a>
+                <a href="#how" onclick="checkPolicyAndNavigate(event, '#how')">Cách hoạt động</a>
+                <a href="javascript:void(0)" onclick="openPolicyModal(false)">Policy / Disclaimer</a>
+            </nav>
+            <div class="nav-right">
+                <button class="btn btn-light" onclick="notify('Bạn đang sử dụng tài khoản trải nghiệm.')">
+                    Đăng nhập
+                </button>
+                <div class="avatar">L</div>
+            </div>
+        </div>
+    </header>
+
+    <main id="home">
+        <section class="hero">
+            <div class="shell hero-grid">
+                <div>
+                    <div class="eyebrow">
+                        <span class="dot"></span> Cộng đồng giáo dục tin cậy
+                    </div>
+                    <h1>Tìm đúng người.<br /><em>Đúng hành trình.</em></h1>
+                    <p>
+                        Learn4Life kết nối gia đình với gia sư và trợ giảng phù hợp — minh bạch hồ sơ, đồng hành trong
+                        từng bước học tập.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="#classes" onclick="checkPolicyAndNavigate(event, '#classes')">Khám phá lớp học&nbsp; ↗</a>
+                        <a class="btn btn-outline" href="#plans" onclick="checkPolicyAndNavigate(event, '#plans')">Xem các gói dịch vụ</a>
+                    </div>
+                    <div class="trust">
+                        <span>✓ <b>Hồ sơ xác thực</b></span>
+                        <span>✓ <b>Fast-Match thông minh</b></span>
+                        <span>✓ <b>An tâm 48 giờ</b></span>
+                    </div>
+                </div>
+                <div class="hero-card">
+                    <div class="card-head">
+                        <strong>Gợi ý dành cho bạn</strong>
+                        <span class="live">● FAST-MATCH</span>
+                    </div>
+                    <div class="match-profile">
+                        <div class="portrait">👩🏻‍🏫</div>
+                        <div class="mp-info">
+                            <b>Minh Anh · Sinh viên Sư phạm</b>
+                            <small>Toán, Tiếng Việt · Ba Đình</small>
+                        </div>
+                        <span class="verified">✓ Verified</span>
+                    </div>
+                    <div class="match-profile">
+                        <div class="portrait blue">👨🏻‍🎓</div>
+                        <div class="mp-info">
+                            <b>Quốc Bảo · Trợ giảng</b>
+                            <small>Tiếng Anh · Thanh Xuân</small>
+                        </div>
+                        <span class="verified">✓ Verified</span>
+                    </div>
+                    <div class="match-profile">
+                        <div class="portrait pink">👩🏽‍🎓</div>
+                        <div class="mp-info">
+                            <b>Thảo Nhi · Gia sư</b>
+                            <small>Toán, Lý · Hưng Yên</small>
+                        </div>
+                        <span class="verified">✓ Verified</span>
+                    </div>
+                    <div class="match-footer">✨ 3 hồ sơ phù hợp được đề xuất trong 24 giờ</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="classes">
+            <div class="shell">
+                <div class="section-head">
+                    <div>
+                        <div class="eyebrow">Cơ hội mới mỗi ngày</div>
+                        <h2>Lớp học đang tìm trợ giảng</h2>
+                    </div>
+                    <p id="resultCount">4 lớp đang tuyển</p>
+                </div>
+                <div class="content-grid">
+                    <aside class="filter-card">
+                        <h3>Tìm lớp phù hợp</h3>
+                        <div class="field">
+                            <label>Từ khóa / môn học</label>
+                            <input id="searchInput" placeholder="Ví dụ: Toán, tiếng Anh" />
+                        </div>
+                        <div class="field">
+                            <label>Khu vực</label>
+                            <select id="areaFilter">
+                                <option value="">Tất cả khu vực</option>
+                                <option>Thanh Xuân</option>
+                                <option>Ba Đình</option>
+                                <option>Hoàn Kiếm</option>
+                                <option>Hưng Yên</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Hình thức</label>
+                            <select id="typeFilter">
+                                <option value="">Tất cả</option>
+                                <option>Trực tiếp</option>
+                                <option>Online</option>
+                            </select>
+                        </div>
+                        <label class="check">
+                            <input type="checkbox" id="urgentFilter" /> Chỉ xem lớp cần gấp
+                        </label>
+                        <button class="btn btn-primary" onclick="filterClasses()">Tìm kiếm lớp</button>
+                    </aside>
+                    <div>
+                        <div class="class-list" id="classList"></div>
+                        <div class="empty" id="emptyState">
+                            Không tìm thấy lớp phù hợp. Hãy thử thay đổi bộ lọc.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="profile" style="padding-top:4px">
+            <div class="shell">
+                <div class="section-head">
+                    <div>
+                        <div class="eyebrow">Công cụ đồng hành</div>
+                        <h2>Một hồ sơ tốt, nhiều cơ hội hơn</h2>
+                    </div>
+                    <p>Dành cho gia sư & trợ giảng</p>
+                </div>
+                <div class="split">
+                    <div class="panel">
+                        <div class="panel-title">
+                            <h3>Hồ sơ gia sư của bạn</h3>
+                            <span class="subtle">Tài khoản trải nghiệm</span>
+                        </div>
+                        <div class="upload-zone">
+                            <div class="upload-icon">📄</div>
+                            <div><b>Tải lên CV chuẩn hóa</b> (PDF, DOC · tối đa 10MB)</div>
+                            <label for="cvFile">Chọn tệp từ thiết bị</label>
+                            <input id="cvFile" type="file" accept=".pdf,.doc,.docx" onchange="uploadCV(this)" />
+                            <div id="fileName" class="subtle" style="margin-top:7px"></div>
+                        </div>
+                        <div class="profile-progress">
+                            <div></div>
+                        </div>
+                        <div class="profile-row">
+                            <span>Hoàn thiện hồ sơ</span>
+                            <b>72%</b>
+                        </div>
+                        <div class="notice" style="margin-top:14px">
+                            🔒 Nhãn <b>Verified CV</b> sẽ được mở sau khi hồ sơ được kiểm duyệt và nâng cấp gói Khởi
+                            Động trở lên.
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-title">
+                            <h3>Báo cáo học tập 1-1</h3>
+                            <span class="tag">GIA SƯ ↔ GIA ĐÌNH</span>
+                        </div>
+                        <div class="report-preview">
+                            <b>📘 Báo cáo tuần · Mẫu xem trước</b>
+                            <p>
+                                Chủ đề: Phân số cơ bản · Mức độ tiến bộ: Tốt<br />
+                                Điểm nổi bật: Chủ động trình bày cách giải.<br />
+                                Gợi ý tuần tới: Luyện thêm bài toán có lời văn.
+                            </p>
+                        </div>
+                        <button class="btn btn-light"
+                            onclick="notify('Báo cáo mẫu đã được gửi tới hộp thư nội bộ (demo).')">
+                            Tạo & gửi báo cáo mẫu
+                        </button>
+                    </div>
+                </div>
+                <div class="match-box" id="how">
+                    <div>
+                        <h3>Fast-Match — đúng nhu cầu, nhanh hơn</h3>
+                        <p>
+                            Phân tích môn học, lịch rảnh và khu vực để đề xuất 3–05 hồ sơ trợ giảng đã qua kiểm
+                            duyệt.<br />
+                            Nhận thông báo lớp mới qua email hoặc tin nhắn nội bộ.
+                        </p>
+                    </div>
+                    <button class="btn btn-lime"
+                        onclick="notify('Đã bật thông báo lớp mới qua email và tin nhắn nội bộ (demo).')">
+                        Bật thông báo&nbsp; ↗
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="plans-section" id="plans">
+            <div class="shell">
+                <div class="section-head">
+                    <div>
+                        <div class="eyebrow">Online Store · Test mode</div>
+                        <h2>Chọn gói phù hợp với bạn</h2>
+                    </div>
+                    <p>Kiểm tra thông tin trước khi thanh toán.</p>
+                </div>
+                <div class="plans-wrapper">
+                    <!-- Nhóm gói dành cho Gia sư & Trợ giảng -->
+                    <div class="plans-group">
+                        <div class="group-title">Dành cho Gia sư & Trợ giảng</div>
+                        <div class="plans-subgrid tutor-plans">
+                            <article class="plan">
+                                <h3>Trải Nghiệm</h3>
+                                <div class="for">Dành cho người mới</div>
+                                <div class="price">0đ</div>
+                                <div class="plan-desc">Bắt đầu xây dựng hiện diện chuyên nghiệp.</div>
+                                <ul>
+                                    <li>Tạo hồ sơ cơ bản</li>
+                                    <li>Xem lớp học đang tuyển</li>
+                                    <li>Nhận thông báo lớp mới</li>
+                                </ul>
+                                <button class="btn btn-outline" onclick="notify('Bạn đang dùng gói Trải Nghiệm.')">Gói
+                                    hiện tại</button>
+                            </article>
+
+                            <article class="plan featured">
+                                <span class="plan-label">ĐỀ XUẤT</span>
+                                <h3>Khởi Động</h3>
+                                <div class="for">Cho gia sư & trợ giảng</div>
+                                <div class="price">49.000đ</div>
+                                <div class="plan-desc">Tăng độ tin cậy, bắt đầu ứng tuyển.</div>
+                                <ul>
+                                    <li>5 lượt ứng tuyển</li>
+                                    <li>Nhãn Verified CV</li>
+                                    <li>Hồ sơ nổi bật hơn</li>
+                                </ul>
+                                <button class="btn btn-primary" onclick="checkout('Khởi Động',49000)">Chọn Khởi
+                                    Động</button>
+                            </article>
+
+                            <article class="plan">
+                                <h3>Bứt Phá</h3>
+                                <div class="for">Cho gia sư chủ động</div>
+                                <div class="price">99.000đ</div>
+                                <div class="plan-desc">Tối đa cơ hội, nổi bật trong 14 ngày.</div>
+                                <ul>
+                                    <li>12 lượt ứng tuyển</li>
+                                    <li>Đẩy top CV 14 ngày</li>
+                                    <li>Tặng Bộ Toolkit Trợ giảng</li>
+                                </ul>
+                                <button class="btn btn-primary" onclick="checkout('Bứt Phá',99000)">Chọn Bứt
+                                    Phá</button>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div class="plans-divider"></div>
+
+                    <div class="plans-group">
+                        <div class="group-title">Dành cho Phụ huynh</div>
+                        <div class="plans-subgrid parent-plans">
+                            <article class="plan">
+                                <h3>Kết Nối Nhanh</h3>
+                                <div class="for">Dành riêng cho phụ huynh</div>
+                                <div class="price">79.000đ</div>
+                                <div class="plan-desc">Để Fast-Match tìm người phù hợp.</div>
+                                <ul>
+                                    <li>Đăng tuyển lớp học</li>
+                                    <li>Nhận 3–05 CV phù hợp</li>
+                                    <li>Trong vòng 24 giờ</li>
+                                </ul>
+                                <button class="btn btn-outline" onclick="checkout('Kết Nối Nhanh',79000)">Chọn gói phụ
+                                    huynh</button>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+                <div class="notice">
+                    🛡️ <b>Chính sách an tâm:</b> Hoàn 100% lượt Apply vào tài khoản sinh viên nếu lớp bị hủy hoặc sai
+                    thông tin trong 48 giờ. Trường hợp lỗi kỹ thuật kích hoạt gói, hỗ trợ hoàn tiền trong 24 giờ. Quy
+                    trình trên được mô phỏng trong bản demo.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="shell footer-inner">
+            <span class="brand" style="font-size:16px">learn<span>4</span>life<span>.</span></span>
+            <span>Kết nối tri thức, mở lối tương lai.</span>
+            <a href="javascript:void(0)" onclick="openPolicyModal(false)" style="text-decoration: underline;">Điều khoản &
+                Miễn trừ trách nhiệm</a>
+            <span>© 2026 Learn4Life · Bản demo</span>
+        </div>
+    </footer>
+
+    <!-- Modal Checkout -->
+    <div class="modal-backdrop" id="checkoutModal" onclick="if(event.target===this)closeCheckout()">
+        <div class="modal">
+            <button class="close" onclick="closeCheckout()">×</button>
+            <span class="mode">● TEST MODE · MÔ PHỎNG</span>
+            <h2 style="margin-top:13px">Xác nhận gói dịch vụ</h2>
+            <p>Đây là giao dịch thử nghiệm. Không nhập dữ liệu thẻ thật và không phát sinh thanh toán.</p>
+            <div class="checkout-summary">
+                <span id="checkoutName">Gói</span>
+                <b id="checkoutPrice">0đ</b>
+            </div>
+            <div class="field">
+                <label>Phương thức thanh toán thử nghiệm</label>
+                <select id="payMethod">
+                    <option>Thẻ ngân hàng (Test)</option>
+                    <option>Ví điện tử (Test)</option>
+                    <option>Chuyển khoản mô phỏng</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Email nhận xác nhận</label>
+                <input type="email" id="emailInput" placeholder="ban@email.com" />
+            </div>
+            <button class="btn btn-primary" onclick="completePayment()">
+                Thanh toán thử nghiệm&nbsp; →
+            </button>
+            <div class="subtle" style="text-align:center;margin-top:11px">
+                Mô phỏng luồng đơn hàng an toàn · Không thu tiền thật
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Policy Nâng Cấp -->
+    <div class="modal-backdrop" id="policyModal">
+        <div class="modal modal-policy">
+            <button class="close" id="policyCloseBtn" onclick="closePolicyModal()">×</button>
+            
+            <div class="policy-header">
+                <span class="mode">📜 ĐIỀU KHOẢN & MIỄN TRỪ TRÁCH NHIỆM</span>
+                <h2>Chính sách & Quy định Sử dụng</h2>
+                <p class="policy-subtitle">Cập nhật lần cuối: 31/10/2026 · Vui lòng đọc kỹ trước khi bắt đầu trải nghiệm</p>
+            </div>
+
+            <!-- Tab Filter Policy -->
+            <div class="policy-tabs">
+                <button class="policy-tab active" onclick="switchPolicyTab('all', this)">Tất cả</button>
+                <button class="policy-tab" onclick="switchPolicyTab('ta', this)">Gia sư / Trợ giảng</button>
+                <button class="policy-tab" onclick="switchPolicyTab('parent', this)">Phụ huynh</button>
+                <button class="policy-tab" onclick="switchPolicyTab('privacy', this)">Bảo mật</button>
+                <button class="policy-tab" onclick="switchPolicyTab('refund', this)">Hoàn tiền</button>
+            </div>
+
+            <div class="policy-content" id="policyContent">
+                <!-- Section 1 -->
+                <div class="policy-section" data-cat="ta">
+                    <div class="policy-card">
+                        <div class="policy-card-title">
+                            <span class="icon">🎓</span> 1. Chính sách Dành cho Gia sư & Trợ giảng
+                        </div>
+                        <div class="policy-card-body">
+                            <h4>Quy trình duyệt hồ sơ & cấp nhãn Verified</h4>
+                            <ul>
+                                <li><b>Tải hồ sơ:</b> Bạn cần tải CV bản chuẩn (PDF/DOC, tối đa 10MB) lên hệ thống.</li>
+                                <li><b>Duyệt nhãn uy tín:</b> Ban quản trị kiểm tra Thẻ sinh viên hoặc CCCD trực tuyến. Đạt yêu cầu và dùng gói Khởi Động trở lên sẽ có nhãn <b>✓ Verified</b>.</li>
+                                <li><b>Bảo mật giấy tờ:</b> Ảnh xác thực sẽ được xóa hoàn toàn khỏi hệ thống ngay sau khi chấm điểm/kiểm duyệt hoàn tất.</li>
+                            </ul>
+
+                            <h4>Chính sách hoàn trả lượt ứng tuyển (Credit Return)</h4>
+                            <p>Hệ thống sẽ hoàn lại <b>100% lượt ứng tuyển</b> vào tài khoản trong vòng 48 giờ nếu gặp trường hợp:</p>
+                            <ul>
+                                <li>Lớp học bị hủy hoặc thông tin lớp sai lệch (môn học, địa điểm, lịch học).</li>
+                                <li>Phụ huynh hủy bài đăng do thay đổi kế hoạch gia đình.</li>
+                                <li>Lớp đã có người nhận trước khi hồ sơ của bạn được xử lý.</li>
+                            </ul>
+
+                            <h4>Bộ Toolkit & Tính năng Đẩy Top CV</h4>
+                            <ul>
+                                <li><b>Bộ Toolkit Trợ giảng:</b> Gửi qua email sau khi kích hoạt thành công gói Bứt Phá.</li>
+                                <li><b>Đẩy Top CV:</b> Ưu tiên hiển thị trên danh sách đề xuất trong vòng 14 ngày.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2 -->
+                <div class="policy-section" data-cat="parent">
+                    <div class="policy-card">
+                        <div class="policy-card-title">
+                            <span class="icon">👨‍👩‍👧‍👦</span> 2. Chính sách Dành cho Phụ huynh
+                        </div>
+                        <div class="policy-card-body">
+                            <h4>Thời gian giao nhận dịch vụ Fast-Match</h4>
+                            <ul>
+                                <li>Sau khi đăng tuyển, hệ thống gửi <b>3–5 hồ sơ Trợ giảng phù hợp</b> trong vòng 24 giờ.</li>
+                                <li>Phụ huynh được chủ động xem chi tiết, liên hệ trực tiếp với Trợ giảng.</li>
+                                <li>Nếu chưa hài lòng, phụ huynh có quyền yêu cầu hỗ trợ đề xuất thêm hồ sơ khác trong 48 giờ.</li>
+                            </ul>
+
+                            <h4>Cam kết minh bạch thông tin</h4>
+                            <p>Mức thù lao (100.000đ – 180.000đ/buổi) và hình thức học (Trực tiếp / Online) luôn được hiển thị công khai. Mọi thỏa thuận chi tiết là giao dịch trực tiếp giữa gia đình và gia sư. Learn4Life không can thiệp vào các điều khoản cá nhân phát sinh ngoài nền tảng.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3 -->
+                <div class="policy-section" data-cat="privacy">
+                    <div class="policy-card">
+                        <div class="policy-card-title">
+                            <span class="icon">🔒</span> 3. Bảo mật & Bảo vệ Người dùng
+                        </div>
+                        <div class="policy-card-body">
+                            <h4>Ẩn thông tin liên hệ</h4>
+                            <p>Số điện thoại, email và địa chỉ nhà chi tiết được ẩn hoàn toàn khỏi danh sách công khai. Thông tin chỉ xuất hiện khi hai bên chủ động bấm chấp nhận kết nối.</p>
+
+                            <h4>Chính sách bảo vệ Beta Tester</h4>
+                            <p>Mọi thông tin cá nhân và giao dịch thử nghiệm trong bản Demo hoàn toàn được lưu giữ trong môi trường mô phỏng an toàn. Bạn có thể yêu cầu xóa dữ liệu cá nhân bất kỳ lúc nào.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4 -->
+                <div class="policy-section" data-cat="refund">
+                    <div class="policy-card">
+                        <div class="policy-card-title">
+                            <span class="icon">💸</span> 4. Chính sách Hoàn tiền Giả lập (Test Mode)
+                        </div>
+                        <div class="policy-card-body">
+                            <p>Website đang hoạt động ở chế độ <b>TEST MODE</b>. Không có bất kỳ giao dịch tài chính thật nào được phát sinh.</p>
+                            <p>Trường hợp gặp lỗi không kích hoạt được gói dịch vụ mô phỏng trong 24 giờ, hệ thống sẽ thực hiện thao tác hoàn tiền giả lập 100% trên bảng điều khiển để đảm bảo luồng trải nghiệm e-commerce chuẩn hóa.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer hành động của Modal -->
+            <div class="policy-footer">
+                <label class="policy-agree-check" id="agreeContainer">
+                    <input type="checkbox" id="policyAgreeCheckbox" onchange="toggleAgreeButton(this.checked)" />
+                    <span>Tôi đã đọc, hiểu rõ và đồng ý với các điều khoản dịch vụ trên.</span>
+                </label>
+
+                <div class="policy-footer-actions">
+                    <button class="btn btn-primary" id="btnAcceptPolicy" disabled onclick="acceptPolicyAndContinue()">
+                        Đồng ý & Tiếp tục
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Dữ liệu lớp học
+        const classes = [
+            { title: 'Trợ giảng Toán lớp 6 · chương trình nâng cao', subject: 'Toán', area: 'Hà Đông', type: 'Trực tiếp', pay: '120.000–150.000đ / buổi', schedule: 'T3, T5 · 17:30', urgent: true, icon: '📐' },
+            { title: 'Hỗ trợ Tiếng Anh giao tiếp cho học sinh lớp 8', subject: 'Tiếng Anh', area: 'Đại Mỗ', type: 'Online', pay: '100.000–130.000đ / buổi', schedule: 'Cuối tuần · linh hoạt', urgent: false, icon: '🌎' },
+            { title: 'Trợ giảng STEM cuối tuần · nhóm nhỏ', subject: 'STEM', area: 'Cầu Giấy', type: 'Trực tiếp', pay: '150.000đ / buổi', schedule: 'Thứ 7 · 09:00', urgent: true, icon: '🔬' },
+            { title: 'Gia sư Toán & Lý lớp 10', subject: 'Toán', area: 'Đống Đa', type: 'Trực tiếp', pay: '180.000đ / buổi', schedule: 'T2, T4 · 18:00', urgent: false, icon: '🧮' }
+        ];
+
+        // Trạng thái chấp nhận Policy
+        let hasAcceptedPolicy = localStorage.getItem('policy_accepted') === 'true';
+        let pendingTargetHash = null;
+
+        function render(list) {
+            const box = document.getElementById('classList');
+            box.innerHTML = '';
+            list.forEach((c, i) => {
+                box.insertAdjacentHTML('beforeend', `<article class="class-card"><div class="class-main"><span class="tag">${c.icon} &nbsp;${c.subject}${c.urgent ? ' · CẦN GẤP' : ''}</span><h3>${c.title}</h3><div class="meta"><span>📍 ${c.area}</span><span>◷ ${c.schedule}</span><span>▣ ${c.type}</span></div><div class="meta" style="margin-top:7px"><span>Liên hệ: <b class="secure">phuhuynh${i + 1}@email.com · 09•• ••• •••</b></span></div></div><div class="class-actions"><div class="salary">${c.pay}</div><button class="btn btn-primary" onclick="lockedApply()">Ứng tuyển</button><span class="locked">🔒 Cần nâng cấp gói</span></div></article>`);
+            });
+            document.getElementById('resultCount').textContent = `${list.length} lớp đang tuyển`;
+            document.getElementById('emptyState').style.display = list.length ? 'none' : 'block';
+        }
+
+        function filterClasses() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const a = document.getElementById('areaFilter').value;
+            const t = document.getElementById('typeFilter').value;
+            const u = document.getElementById('urgentFilter').checked;
+
+            render(classes.filter(c =>
+                (!q || `${c.title} ${c.subject}`.toLowerCase().includes(q)) &&
+                (!a || c.area === a) &&
+                (!t || c.type === t) &&
+                (!u || c.urgent)
+            ));
+        }
+
+        function notify(text) {
+            const el = document.getElementById('toast');
+            el.textContent = text;
+            el.classList.add('show');
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => el.classList.remove('show'), 3100);
+        }
+
+        function lockedApply() {
+            notify('Tài khoản trải nghiệm chưa có lượt ứng tuyển. Xem các gói dịch vụ bên dưới.');
+            setTimeout(() => document.getElementById('plans').scrollIntoView({ behavior: 'smooth' }), 500);
+        }
+
+        function uploadCV(input) {
+            if (input.files[0]) {
+                document.getElementById('fileName').textContent = 'Đã chọn: ' + input.files[0].name + ' · Chờ kiểm duyệt';
+                notify('CV đã được tải lên trong bản demo.');
+            }
+        }
+
+        function checkout(name, price) {
+            document.getElementById('checkoutName').textContent = name;
+            document.getElementById('checkoutPrice').textContent = price.toLocaleString('vi-VN') + 'đ';
+            document.getElementById('checkoutModal').classList.add('show');
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').classList.remove('show');
+        }
+
+        function completePayment() {
+            const email = document.getElementById('emailInput').value;
+            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                notify('Vui lòng nhập email hợp lệ.');
+                return;
+            }
+            const name = document.getElementById('checkoutName').textContent;
+            closeCheckout();
+            notify(`Đơn hàng ${name} đã được mô phỏng thành công (Test mode).`);
+        }
+
+        /* --- XỬ LÝ ĐIỀU KHOẢN & MỞ TAB (POLICY LOGIC) --- */
+
+        // Kiểm tra xem đã đồng ý chưa khi bấm vào tab
+        function checkPolicyAndNavigate(event, hashTarget) {
+            if (!hasAcceptedPolicy) {
+                event.preventDefault();
+                pendingTargetHash = hashTarget;
+                openPolicyModal(true);
+            }
+        }
+
+        // Mở Modal Policy
+        function openPolicyModal(isMandatory = false) {
+            const modal = document.getElementById('policyModal');
+            const closeBtn = document.getElementById('policyCloseBtn');
+            const agreeCheck = document.getElementById('policyAgreeCheckbox');
+            
+            // Nếu đã đồng ý trước đó và mở xem lại từ footer/nav -> Tick sẵn ô
+            if (hasAcceptedPolicy) {
+                agreeCheck.checked = true;
+                toggleAgreeButton(true);
+                closeBtn.style.display = 'block';
+            } else {
+                agreeCheck.checked = false;
+                toggleAgreeButton(false);
+                // Bắt buộc chấp nhận mới cho tắt
+                if (isMandatory) {
+                    closeBtn.style.display = 'none';
+                } else {
+                    closeBtn.style.display = 'block';
+                }
+            }
+
+            modal.classList.add('show');
+        }
+
+        // Đóng Modal
+        function closePolicyModal() {
+            document.getElementById('policyModal').classList.remove('show');
+        }
+
+        // Bật/Tắt nút bấm theo ô Tick
+        function toggleAgreeButton(isChecked) {
+            const btn = document.getElementById('btnAcceptPolicy');
+            btn.disabled = !isChecked;
+        }
+
+        // Nhấn nút "Đồng ý & Tiếp tục"
+        function acceptPolicyAndContinue() {
+            hasAcceptedPolicy = true;
+            localStorage.setItem('policy_accepted', 'true');
+            closePolicyModal();
+            notify('Cảm ơn bạn đã đồng ý với Điều khoản dịch vụ.');
+
+            // Nếu đang chờ chuyển tới tab nào đó thì scroll tới
+            if (pendingTargetHash) {
+                const targetEl = document.querySelector(pendingTargetHash);
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'smooth' });
+                }
+                pendingTargetHash = null;
+            }
+        }
+
+        // Chuyển Tab lọc nội dung Policy
+        function switchPolicyTab(category, tabBtn) {
+            document.querySelectorAll('.policy-tab').forEach(b => b.classList.remove('active'));
+            tabBtn.classList.add('active');
+
+            const sections = document.querySelectorAll('.policy-section');
+            sections.forEach(sec => {
+                if (category === 'all' || sec.getAttribute('data-cat') === category) {
+                    sec.style.display = 'block';
+                } else {
+                    sec.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+        render(classes);
+        
+        // Nếu người dùng chưa từng nhấn đồng ý -> Bật Popup ngay lập tức
+        if (!hasAcceptedPolicy) {
+            setTimeout(() => {
+                openPolicyModal(true);
+            }, 300);
+        }
+    });
+
+        // Khởi chạy ban đầu
+        render(classes);
+    </script>
+</body>
+
+</html>
