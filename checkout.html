@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán — Learn4Life</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .checkout-container {
+            max-width: 580px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+        }
+
+        .checkout-header {
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 12px;
+            color: var(--green);
+            font-size: 13px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="shell nav">
+            <a href="demo2.html" class="brand">learn<span>4</span>life<span>.</span></a>
+        </div>
+    </header>
+
+    <main class="shell">
+        <div class="checkout-container">
+            <a href="demo2.html#plans" class="back-link">← Quay lại danh sách gói</a>
+            <div class="checkout-header">
+                <span class="mode">● TEST MODE · MÔ PHỎNG</span>
+                <h2 style="margin-top:8px;">Xác nhận gói dịch vụ</h2>
+                <p style="color:var(--muted); font-size:13px;">Đây là giao dịch thử nghiệm. Không nhập dữ liệu thật và không phát sinh thanh toán.</p>
+            </div>
+
+            <!-- Tóm tắt gói cước chọn từ trang trước -->
+            <div class="checkout-summary">
+                <span id="checkoutName" style="font-weight:700;">Tên gói...</span>
+                <b id="checkoutPrice" style="color:var(--green); font-size:16px;">0đ</b>
+            </div>
+
+            <form onsubmit="handlePayment(event)">
+                <!-- Tên người dùng / Người thanh toán -->
+                <div class="field">
+                    <label>Tên người thanh toán</label>
+                    <input type="text" id="userNameInput" placeholder="Nguyễn Văn A" required />
+                </div>
+
+                <div class="field">
+                    <label>Email nhận xác nhận</label>
+                    <input type="email" id="emailInput" placeholder="ban@email.com" required />
+                </div>
+
+                <div class="field">
+                    <label>Phương thức thanh toán thử nghiệm</label>
+                    <select id="payMethod" required>
+                        <option>Thẻ ngân hàng (Test)</option>
+                        <option>Ví điện tử (Test)</option>
+                        <option>Chuyển khoản mô phỏng</option>
+                    </select>
+                </div>
+
+                <!-- 2 ô Checkbox xác nhận -->
+                <div class="checkout-agreements" style="margin: 18px 0; display: flex; flex-direction: column; gap: 10px;">
+                    <label class="check-item" style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="agreeTerms" onchange="validateCheckoutForm()" />
+                        <span>Tôi đồng ý với <a href="javascript:void(0)" onclick="openPolicyModal()" style="color: var(--green); text-decoration: underline;">Điều khoản dịch vụ</a></span>
+                    </label>
+
+                    <label class="check-item" style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                        <input type="checkbox" id="agreePayment" onchange="validateCheckoutForm()" />
+                        <span>Xác nhận thông tin thanh toán & gói dịch vụ đã chọn</span>
+                    </label>
+                </div>
+
+                <!-- Nút thanh toán (Mặc định bị disable) -->
+                <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%; margin-top: 10px;" disabled>
+                    Xác nhận thanh toán &nbsp;→
+                </button>
+
+                <div class="subtle" style="text-align:center; margin-top:16px;">
+                    Mô phỏng luồng đơn hàng an toàn · Không thu tiền thật
+                </div>
+            </form>
+        </div>
+
+        <!-- Modal Policy -->
+        <div class="modal-backdrop" id="policyModal">
+            <div class="modal modal-policy">
+                <button type="button" class="close" id="policyCloseBtn" onclick="closePolicyModal()">×</button>
+
+                <div class="policy-header">
+                    <span class="mode">📜 ĐIỀU KHOẢN & MIỄN TRỪ TRÁCH NHIỆM</span>
+                    <h2>Chính sách & Quy định Sử dụng</h2>
+                    <p class="policy-subtitle">Cập nhật lần cuối: 31/10/2026 · Vui lòng đọc kỹ trước khi bắt đầu trải nghiệm</p>
+                </div>
+
+                <!-- Tab Filter Policy -->
+                <div class="policy-tabs">
+                    <button type="button" class="policy-tab active" onclick="switchPolicyTab('all', this)">Tất cả</button>
+                    <button type="button" class="policy-tab" onclick="switchPolicyTab('ta', this)">Gia sư / Trợ giảng</button>
+                    <button type="button" class="policy-tab" onclick="switchPolicyTab('parent', this)">Phụ huynh</button>
+                    <button type="button" class="policy-tab" onclick="switchPolicyTab('privacy', this)">Bảo mật</button>
+                    <button type="button" class="policy-tab" onclick="switchPolicyTab('refund', this)">Hoàn tiền</button>
+                </div>
+
+                <div class="policy-content" id="policyContent">
+                    <!-- Section 1 -->
+                    <div class="policy-section" data-cat="ta">
+                        <div class="policy-card">
+                            <div class="policy-card-title">
+                                <span class="icon">🎓</span>1. Chính sách Dành cho Gia sư & Trợ giảng
+                            </div>
+                            <div class="policy-card-body">
+                                <h4>Quy trình duyệt hồ sơ & cấp nhãn Verified</h4>
+                                <ul>
+                                    <li><b>Tải hồ sơ:</b> Bạn cần tải CV bản chuẩn (PDF/DOC, tối đa 10MB) lên hệ thống.</li>
+                                    <li><b>Duyệt nhãn uy tín:</b> Ban quản trị kiểm tra Thẻ sinh viên hoặc CCCD trực tuyến. Đạt yêu cầu và dùng gói Khởi Động trở lên sẽ có nhãn <b>✓ Verified</b>.</li>
+                                    <li><b>Bảo mật giấy tờ:</b> Ảnh xác thực sẽ được xóa hoàn toàn khỏi hệ thống ngay sau khi chấm điểm/kiểm duyệt hoàn tất.</li>
+                                </ul>
+
+                                <h4>Chính sách hoàn trả lượt ứng tuyển (Credit Return)</h4>
+                                <p>Hệ thống sẽ hoàn lại <b>100% lượt ứng tuyển</b> vào tài khoản trong vòng 48 giờ nếu gặp trường hợp:</p>
+                                <ul>
+                                    <li>Lớp học bị hủy hoặc thông tin lớp sai lệch (môn học, địa điểm, lịch học).</li>
+                                    <li>Phụ huynh hủy bài đăng do thay đổi kế hoạch gia đình.</li>
+                                    <li>Lớp đã có người nhận trước khi hồ sơ của bạn được xử lý.</li>
+                                </ul>
+
+                                <h4>Bộ Toolkit & Tính năng Đẩy Top CV</h4>
+                                <ul>
+                                    <li><b>Bộ Toolkit Trợ giảng:</b> Gửi qua email sau khi kích hoạt thành công gói Bứt Phá.</li>
+                                    <li><b>Đẩy Top CV:</b> Ưu tiên hiển thị trên danh sách đề xuất trong vòng 14 ngày.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2 -->
+                    <div class="policy-section" data-cat="parent">
+                        <div class="policy-card">
+                            <div class="policy-card-title">
+                                <span class="icon">👨‍👩‍👧‍👦</span> 2. Chính sách Dành cho Phụ huynh
+                            </div>
+                            <div class="policy-card-body">
+                                <h4>Thời gian giao nhận dịch vụ Fast-Match</h4>
+                                <ul>
+                                    <li>Sau khi đăng tuyển, hệ thống gửi <b>3–5 hồ sơ Trợ giảng phù hợp</b> trong vòng 24 giờ.</li>
+                                    <li>Phụ huynh được chủ động xem chi tiết, liên hệ trực tiếp với Trợ giảng.</li>
+                                    <li>Nếu chưa hài lòng, phụ huynh có quyền yêu cầu hỗ trợ đề xuất thêm hồ sơ khác trong 48 giờ.</li>
+                                </ul>
+
+                                <h4>Cam kết minh bạch thông tin</h4>
+                                <p>Mức thù lao (100.000đ – 180.000đ/buổi) và hình thức học (Trực tiếp / Online) luôn được hiển thị công khai. Mọi thỏa thuận chi tiết là giao dịch trực tiếp giữa gia đình và gia sư. Learn4Life không can thiệp vào các điều khoản cá nhân phát sinh ngoài nền tảng.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3 -->
+                    <div class="policy-section" data-cat="privacy">
+                        <div class="policy-card">
+                            <div class="policy-card-title">
+                                <span class="icon">🔒</span> 3. Bảo mật & Bảo vệ Người dùng
+                            </div>
+                            <div class="policy-card-body">
+                                <h4>Ẩn thông tin liên hệ</h4>
+                                <p>Số điện thoại, email và địa chỉ nhà chi tiết được ẩn hoàn toàn khỏi danh sách công khai. Thông tin chỉ xuất hiện khi hai bên chủ động bấm chấp nhận kết nối.</p>
+
+                                <h4>Chính sách bảo vệ Beta Tester</h4>
+                                <p>Mọi thông tin cá nhân và giao dịch thử nghiệm trong bản Demo hoàn toàn được lưu giữ trong môi trường mô phỏng an toàn. Bạn có thể yêu cầu xóa dữ liệu cá nhân bất kỳ lúc nào.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4 -->
+                    <div class="policy-section" data-cat="refund">
+                        <div class="policy-card">
+                            <div class="policy-card-title">
+                                <span class="icon">💸</span> 4. Chính sách Hoàn tiền Giả lập (Test Mode)
+                            </div>
+                            <div class="policy-card-body">
+                                <p>Website đang hoạt động ở chế độ <b>TEST MODE</b>. Không có bất kỳ giao dịch tài chính thật nào được phát sinh.</p>
+                                <p>Trường hợp gặp lỗi không kích hoạt được gói dịch vụ mô phỏng trong 24 giờ, hệ thống sẽ thực hiện thao tác hoàn tiền giả lập 100% trên bảng điều khiển để đảm bảo luồng trải nghiệm e-commerce chuẩn hóa.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const selectedPlan = JSON.parse(localStorage.getItem('selected_plan'));
+
+            if (!selectedPlan) {
+                window.location.href = 'demo2.html#plans';
+                return;
+            }
+
+            document.getElementById('checkoutName').textContent = selectedPlan.name;
+            document.getElementById('checkoutPrice').textContent = Number(selectedPlan.price).toLocaleString('vi-VN') + 'đ';
+
+            const user = JSON.parse(localStorage.getItem('user_session'));
+            if (user) {
+                const nameInput = document.getElementById('userNameInput');
+                const emailInput = document.getElementById('emailInput');
+                if (user.name && nameInput) nameInput.value = user.name;
+                if (user.email && emailInput) emailInput.value = user.email;
+            }
+        });
+
+        function validateCheckoutForm() {
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+            const agreePayment = document.getElementById('agreePayment').checked;
+            document.getElementById('submitBtn').disabled = !(agreeTerms && agreePayment);
+        }
+
+        function notify(text) {
+            const el = document.getElementById('toast');
+            el.textContent = text;
+            el.classList.add('show');
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => el.classList.remove('show'), 3100);
+        }
+
+        function handlePayment(e) {
+            e.preventDefault();
+            const planName = document.getElementById('checkoutName').textContent;
+            localStorage.removeItem('selected_plan');
+            notify(`Thanh toán thành công gói ${planName}! Đang quay về trang chủ...`);
+            setTimeout(() => {
+                window.location.href = 'demo2.html?payment=success';
+            }, 2000);
+        }
+
+        function openPolicyModal() {
+            document.getElementById('policyModal').classList.add('show');
+        }
+
+        function closePolicyModal() {
+            document.getElementById('policyModal').classList.remove('show');
+        }
+
+        function switchPolicyTab(category, btnElement) {
+            // Đổi active cho button tab
+            const tabs = document.querySelectorAll('.policy-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // Ẩn/Hiện nội dung theo danh mục
+            const sections = document.querySelectorAll('.policy-section');
+            sections.forEach(sec => {
+                if (category === 'all' || sec.getAttribute('data-cat') === category) {
+                    sec.style.display = 'block';
+                } else {
+                    sec.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

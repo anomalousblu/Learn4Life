@@ -16,7 +16,6 @@
                 <a href="#classes" onclick="checkPolicyAndNavigate(event, '#classes')">Tìm lớp</a>
                 <a href="#profile" onclick="checkPolicyAndNavigate(event, '#profile')">Hồ sơ gia sư</a>
                 <a href="#plans" onclick="checkPolicyAndNavigate(event, '#plans')">Gói dịch vụ</a>
-                <a href="#how" onclick="checkPolicyAndNavigate(event, '#how')">Cách hoạt động</a>
                 <a href="javascript:void(0)" onclick="openPolicyModal(false)">Policy / Disclaimer</a>
             </nav>
             <div class="nav-right" id="navRight">
@@ -187,6 +186,7 @@
                         </button>
                     </div>
                 </div>
+
                 <div class="match-box" id="how">
                     <div>
                         <h3>Fast-Match — đúng nhu cầu, nhanh hơn</h3>
@@ -266,11 +266,11 @@
                     <div class="plans-divider"></div>
 
                     <div class="plans-group">
-                        <div class="group-title">Dành cho Phụ huynh</div>
+                        <div class="group-title">Dành cho Phụ huynh / Học sinh</div>
                         <div class="plans-subgrid parent-plans">
                             <article class="plan">
                                 <h3>Kết Nối Nhanh</h3>
-                                <div class="for">Dành riêng cho phụ huynh</div>
+                                <div class="for">Dành riêng cho phụ huynh / học sinh</div>
                                 <div class="price">79.000đ</div>
                                 <div class="plan-desc">Để Fast-Match tìm người phù hợp.</div>
                                 <ul>
@@ -279,7 +279,7 @@
                                     <li>Trong vòng 24 giờ</li>
                                 </ul>
                                 <button class="btn btn-outline" onclick="checkout('Kết Nối Nhanh',79000)">Chọn gói phụ
-                                    huynh</button>
+                                    huynh / học sinh</button>
                             </article>
                         </div>
                     </div>
@@ -303,38 +303,6 @@
             <span>© 2026 Learn4Life · Bản demo</span>
         </div>
     </footer>
-
-    <!-- Modal Checkout -->
-    <div class="modal-backdrop" id="checkoutModal" onclick="if(event.target===this)closeCheckout()">
-        <div class="modal">
-            <button class="close" onclick="closeCheckout()">×</button>
-            <span class="mode">● TEST MODE · MÔ PHỎNG</span>
-            <h2 style="margin-top:13px">Xác nhận gói dịch vụ</h2>
-            <p>Đây là giao dịch thử nghiệm. Không nhập dữ liệu thẻ thật và không phát sinh thanh toán.</p>
-            <div class="checkout-summary">
-                <span id="checkoutName">Gói</span>
-                <b id="checkoutPrice">0đ</b>
-            </div>
-            <div class="field">
-                <label>Phương thức thanh toán thử nghiệm</label>
-                <select id="payMethod">
-                    <option>Thẻ ngân hàng (Test)</option>
-                    <option>Ví điện tử (Test)</option>
-                    <option>Chuyển khoản mô phỏng</option>
-                </select>
-            </div>
-            <div class="field">
-                <label>Email nhận xác nhận</label>
-                <input type="email" id="emailInput" placeholder="ban@email.com" />
-            </div>
-            <button class="btn btn-primary" onclick="completePayment()">
-                Thanh toán thử nghiệm&nbsp; →
-            </button>
-            <div class="subtle" style="text-align:center;margin-top:11px">
-                Mô phỏng luồng đơn hàng an toàn · Không thu tiền thật
-            </div>
-        </div>
-    </div>
 
     <!-- Modal Policy Nâng Cấp -->
     <div class="modal-backdrop" id="policyModal">
@@ -527,10 +495,14 @@
             }
         }
 
+        // Cập nhật hàm checkout trong demo2.html
         function checkout(name, price) {
-            document.getElementById('checkoutName').textContent = name;
-            document.getElementById('checkoutPrice').textContent = price.toLocaleString('vi-VN') + 'đ';
-            document.getElementById('checkoutModal').classList.add('show');
+            // 1. Lưu thông tin gói cước đã chọn vào localStorage
+            const planInfo = { name: name, price: price };
+            localStorage.setItem('selected_plan', JSON.stringify(planInfo));
+
+            // 2. Chuyển hướng người dùng sang trang checkout.html
+            window.location.href = 'checkout.html';
         }
 
         function closeCheckout() {
@@ -782,6 +754,18 @@
             updateUserUI();
         }
 
+        document.addEventListener('DOMContentLoaded', () => {
+            render(classes);
+
+            // Kiểm tra xem có phải vừa hoàn tất thanh toán từ checkout.html quay về không
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('payment') === 'success') {
+                notify('🎉 Kích hoạt gói dịch vụ thành công!');
+                // Xóa param trên URL để không bị lặp lại khi F5
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
+
         // Khởi chạy ban đầu
         render(classes);
     </script>
@@ -826,7 +810,7 @@
                     <label>Bạn là:</label>
                     <select id="regRole" required>
                         <option value="tutor">Gia sư / Trợ giảng</option>
-                        <option value="parent">Phụ huynh</option>
+                        <option value="parent">Phụ huynh / Học sinh</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary" style="width:100%">Tạo tài khoản</button>
