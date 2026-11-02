@@ -1219,3 +1219,55 @@ a {
         width: 100%;
     }
 }
+
+/* Auth Modal Style */
+.auth-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 8px;
+}
+
+.auth-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 8px 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.auth-tab.active {
+    color: var(--green);
+    border-bottom: 3px solid var(--green);
+}
+
+/* Auth Modal Styling */
+.auth-tabs {
+    display: flex;
+    gap: 10px;
+    border-bottom: 2px solid var(--line);
+    margin-bottom: 18px;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border: none;
+    font-weight: 700;
+    color: var(--muted);
+    font-size: 14px;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+}
+
+.auth-tab.active {
+    color: var(--green);
+    border-bottom-color: var(--green);
+}
