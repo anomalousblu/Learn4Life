@@ -36,13 +36,13 @@
 <body>
     <header class="topbar">
         <div class="shell nav">
-            <a href="demo2.html" class="brand">learn<span>4</span>life<span>.</span></a>
+            <a href="index.html" class="brand">learn<span>4</span>life<span>.</span></a>
         </div>
     </header>
 
     <main class="shell">
         <div class="checkout-container">
-            <a href="demo2.html#plans" class="back-link">← Quay lại danh sách gói</a>
+            <a href="index.html#plans" class="back-link">← Quay lại danh sách gói</a>
             <div class="checkout-header">
                 <span class="mode">● TEST MODE · MÔ PHỎNG</span>
                 <h2 style="margin-top:8px;">Xác nhận gói dịch vụ</h2>
@@ -212,7 +212,7 @@
             const selectedPlan = JSON.parse(localStorage.getItem('selected_plan'));
 
             if (!selectedPlan) {
-                window.location.href = 'demo2.html#plans';
+                window.location.href = 'index.html#plans';
                 return;
             }
 
@@ -248,7 +248,7 @@
             localStorage.removeItem('selected_plan');
             notify(`Thanh toán thành công gói ${planName}! Đang quay về trang chủ...`);
             setTimeout(() => {
-                window.location.href = 'demo2.html?payment=success';
+                window.location.href = 'index.html?payment=success';
             }, 2000);
         }
 
