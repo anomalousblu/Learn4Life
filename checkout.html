@@ -276,6 +276,7 @@
             const selectedPlan = JSON.parse(localStorage.getItem('selected_plan'));
             const planName = selectedPlan ? selectedPlan.name : document.getElementById('checkoutName').textContent;
 
+            // Xác định số lượt ứng tuyển cộng thêm theo từng gói
             let creditsToAdd = 0;
             if (planName === 'Khởi Động') {
                 creditsToAdd = 5;
@@ -286,24 +287,25 @@
             let user = JSON.parse(localStorage.getItem('user_session')) || {
                 name: document.getElementById('userNameInput').value || 'Người dùng',
                 email: document.getElementById('emailInput').value || 'user@email.com',
-                role: 'parent'
+                role: 'tutor'
             };
 
             user.activePlan = planName;
 
-            // Phân quyền & Cộng số lượt tương ứng
+            // Xử lý cộng lượt theo vai trò (Role)
             if (user.role === 'parent') {
                 if (planName === 'Kết Nối Nhanh') {
-                    // Mỗi gói Kết Nối Nhanh cộng 1 lượt đăng bài
                     user.postCredits = (user.postCredits || 0) + 1;
                 }
             } else {
+                // Cộng lượt ứng tuyển cho Gia sư / Trợ giảng
                 user.applyCredits = (user.applyCredits || 0) + creditsToAdd;
             }
 
+            // Cập nhật phiên đăng nhập hiện tại
             localStorage.setItem('user_session', JSON.stringify(user));
 
-            // Đồng bộ vào danh sách registered_users
+            // Đồng bộ vào cơ sở dữ liệu người dùng (registered_users)
             let users = JSON.parse(localStorage.getItem('registered_users')) || [];
             const userIndex = users.findIndex(u => u.email === user.email);
             if (userIndex !== -1) {

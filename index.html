@@ -172,9 +172,11 @@
                     <div class="parent-locked-icon">🔒</div>
                     <h3 class="parent-locked-title">Bạn chưa có lượt đăng lớp học</h3>
                     <p class="parent-locked-text">
-                        Nâng cấp hoặc mua thêm gói <b>Kết Nối Nhanh (79.000đ)</b> để nhận 1 lượt đăng lớp và 3 lần chỉnh sửa thông tin.
+                        Nâng cấp hoặc mua thêm gói <b>Kết Nối Nhanh (79.000đ)</b> để nhận 1 lượt đăng lớp và 3 lần chỉnh
+                        sửa thông tin.
                     </p>
-                    <a href="#plans" class="btn btn-primary" onclick="checkPolicyAndNavigate(event, '#plans')">Nâng cấp gói ngay &nbsp;→</a>
+                    <a href="#plans" class="btn btn-primary" onclick="checkPolicyAndNavigate(event, '#plans')">Nâng cấp
+                        gói ngay &nbsp;→</a>
                 </div>
 
                 <!-- Trạng thái 2: Còn lượt đăng gói -> Hiện form nhập liệu -->
@@ -243,7 +245,8 @@
                                 <label>Trình độ yêu cầu</label>
                                 <div class="level-checkbox-group">
                                     <label><input type="checkbox" id="postLevelBasic" value="Cơ bản" /> Cơ bản</label>
-                                    <label><input type="checkbox" id="postLevelAdvanced" value="Nâng cao" /> Nâng cao</label>
+                                    <label><input type="checkbox" id="postLevelAdvanced" value="Nâng cao" /> Nâng
+                                        cao</label>
                                 </div>
                             </div>
                         </div>
@@ -268,7 +271,8 @@
                                 placeholder="Ví dụ: T3, T5 hàng tuần từ 18h; Yêu cầu SV Sư phạm" required />
                         </div>
 
-                        <button type="submit" class="btn btn-primary post-form-submit-btn">Đăng lớp ngay (Dùng 1 gói Kết Nối Nhanh) &nbsp;↗</button>
+                        <button type="submit" class="btn btn-primary post-form-submit-btn">Đăng lớp ngay (Dùng 1 gói Kết
+                            Nối Nhanh) &nbsp;↗</button>
                     </form>
                 </div>
             </div>
@@ -283,64 +287,289 @@
                     </div>
                     <p>Dành cho gia sư & trợ giảng</p>
                 </div>
+
                 <div class="split">
+                    <!-- CỘT TRÁI: Form nhập hồ sơ, avatar, upload thẻ SV & CV -->
                     <div class="panel">
                         <div class="panel-title">
                             <h3>Hồ sơ gia sư của bạn</h3>
                             <span class="subtle">Tài khoản trải nghiệm</span>
                         </div>
-                        <div class="upload-zone">
-                            <div class="upload-icon">📄</div>
-                            <div><b>Tải lên CV chuẩn hóa</b> (PDF, DOC · tối đa 10MB)</div>
-                            <label for="cvFile">Chọn tệp từ thiết bị</label>
-                            <input id="cvFile" type="file" accept=".pdf,.doc,.docx" onchange="uploadCV(this)" />
-                            <div id="fileName" class="subtle"></div>
+
+                        <!-- Upload Avatar -->
+                        <div class="avatar-upload-box">
+                            <div id="avatarPreviewBox">
+                                <div class="avatar-preview-lg" id="avatarPreviewText">A</div>
+                            </div>
+                            <div>
+                                <b style="font-size: 13px; display: block; margin-bottom: 4px;">Ảnh đại diện
+                                    (Avatar)</b>
+                                <label for="avatarInput" class="btn btn-outline btn-sm"
+                                    style="cursor: pointer; display: inline-block;">
+                                    📷 Thay đổi avatar
+                                </label>
+                                <input type="file" id="avatarInput" accept="image/*" onchange="handleUpdateAvatar(this)"
+                                    style="display: none;" />
+                            </div>
                         </div>
-                        <div class="profile-progress">
-                            <div></div>
+
+                        <!-- Form Nhập Hồ Sơ Chi Tiết Gia Sư -->
+                        <form id="tutorProfileForm" onsubmit="handleSaveTutorProfile(event)" class="tutor-profile-form">
+                            <!-- 1. Thông tin cá nhân -->
+                            <div class="post-form-grid">
+                                <div class="field">
+                                    <label>Họ và tên</label>
+                                    <input type="text" id="tutorName" placeholder="Nguyễn Văn A" required />
+                                </div>
+                                <div class="field">
+                                    <label>Ngày sinh (D.O.B)</label>
+                                    <input type="date" id="tutorDob" required />
+                                </div>
+                            </div>
+
+                            <div class="post-form-grid">
+                                <div class="field">
+                                    <label>Giới tính</label>
+                                    <select id="tutorGender" required>
+                                        <option value="">Chọn giới tính</option>
+                                        <option value="Nam">Nam</option>
+                                        <option value="Nữ">Nữ</option>
+                                        <option value="Khác">Khác</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label>Số điện thoại / Zalo</label>
+                                    <input type="tel" id="tutorPhone" placeholder="0987654321" required />
+                                </div>
+                            </div>
+
+                            <!-- 2. Học vấn -->
+                            <div class="post-form-grid">
+                                <div class="field">
+                                    <label>Trường học (Hiện tại / Tốt nghiệp)</label>
+                                    <input type="text" id="tutorSchool" placeholder="Ví dụ: Đại học Hà Nội" required />
+                                </div>
+                                <div class="field">
+                                    <label>Chuyên ngành & Trình độ</label>
+                                    <input type="text" id="tutorMajor" placeholder="Ví dụ: Sinh viên CNTT - Năm 3"
+                                        required />
+                                </div>
+                            </div>
+
+                            <!-- 3. Chuyên môn & Khu vực -->
+                            <div class="post-form-grid">
+                                <div class="field">
+                                    <label>Môn học nhận dạy</label>
+                                    <input type="text" id="tutorSubjects" placeholder="Ví dụ: Toán, Vật Lý, Tiếng Anh"
+                                        required />
+                                </div>
+                                <div class="field">
+                                    <label>Khối lớp nhận dạy</label>
+                                    <input type="text" id="tutorGrades" placeholder="Ví dụ: Lớp 6 - Lớp 9, Ôn thi 10"
+                                        required />
+                                </div>
+                            </div>
+
+                            <div class="post-form-grid">
+                                <div class="field">
+                                    <label>Hình thức giảng dạy</label>
+                                    <select id="tutorTeachingType" required>
+                                        <option value="Cả hai">Cả Trực tiếp & Online</option>
+                                        <option value="Trực tiếp">Chỉ Trực tiếp</option>
+                                        <option value="Online">Chỉ Online</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label>Khu vực có thể dạy</label>
+                                    <input type="text" id="tutorArea"
+                                        placeholder="Ví dụ: Cầu Giấy, Nam Từ Liêm, Thanh Xuân" required />
+                                </div>
+                            </div>
+
+                            <!-- 4. Kinh nghiệm & Bằng cấp -->
+                            <div class="field">
+                                <label>Kinh nghiệm & Giới thiệu bản thân</label>
+                                <textarea id="tutorBio" rows="3"
+                                    placeholder="Mô tả kinh nghiệm, phương pháp giảng dạy, điểm mạnh cá nhân..."
+                                    class="form-textarea"></textarea>
+                            </div>
+
+                            <!-- 5. Tải lên Thẻ SV/CCCD -->
+                            <div class="upload-zone" style="margin-bottom: 15px;">
+                                <div class="upload-icon">📄</div>
+                                <div><b> Tải lên Thẻ sinh viên / Bằng cấp</b> (PDF, DOC, Ảnh · tối đa 10MB)</div>
+                                <label for="svFile">Chọn tệp từ thiết bị</label>
+                                <input id="svFile" type="file" accept=".pdf,.doc,.docx,image/*"
+                                    onchange="uploadSV(this)" />
+                                <div id="fileName" class="subtle"></div>
+                            </div>
+
+                            <!-- 6. Tải CV -->
+                            <div class="upload-zone" style="margin-bottom: 15px;">
+                                <div class="upload-icon">📄</div>
+                                <div><b> Tải lên CV</b> (PDF, DOC, Ảnh · tối đa 10MB)</div>
+                                <label for="cvFile">Chọn tệp từ thiết bị</label>
+                                <input id="cvFile" type="file" accept=".pdf,.doc,.docx,image/*"
+                                    onchange="uploadCV(this)" />
+                                <div id="fileName" class="subtle"></div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Lưu hồ sơ gia sư</button>
+                        </form>
+
+                        <div class="profile-progress" style="margin-top: 20px;">
+                            <div id="profileProgressBar" style="width: 0%;"></div>
                         </div>
                         <div class="profile-row">
                             <span>Hoàn thiện hồ sơ</span>
-                            <b>72%</b>
+                            <b id="profilePercentText">0%</b>
                         </div>
                         <div class="notice">
-                            🔒 Nhãn <b>Verified CV</b> sẽ được mở sau khi hồ sơ được kiểm duyệt và nâng cấp gói Khởi Động trở lên.
+                            🔒 Nhãn <b>Verified CV</b> sẽ được mở sau khi hồ sơ được kiểm duyệt và nâng cấp gói Khởi
+                            Động trở lên.
                         </div>
                     </div>
-                    <div class="panel">
-                        <div class="panel-title">
-                            <h3>Báo cáo học tập 1-1</h3>
-                            <span class="tag">GIA SƯ ↔ GIA ĐÌNH</span>
-                        </div>
-                        <div class="report-preview">
-                            <b>📘 Báo cáo tuần · Mẫu xem trước</b>
-                            <p>
-                                Chủ đề: Phân số cơ bản · Mức độ tiến bộ: Tốt<br />
-                                Điểm nổi bật: Chủ động trình bày cách giải.<br />
-                                Gợi ý tuần tới: Luyện thêm bài toán có lời văn.
-                            </p>
-                        </div>
-                        <button class="btn btn-light"
-                            onclick="notify('Báo cáo mẫu đã được gửi tới hộp thư nội bộ (demo).')">
-                            Tạo & gửi báo cáo mẫu
-                        </button>
-                    </div>
-                </div>
 
-                <div class="match-box" id="how">
-                    <div>
-                        <h3>Fast-Match — đúng nhu cầu, nhanh hơn</h3>
-                        <p>
-                            Phân tích môn học, lịch rảnh và khu vực để đề xuất 3–05 hồ sơ trợ giảng đã qua kiểm duyệt.<br />
-                            Nhận thông báo lớp mới qua email hoặc tin nhắn nội bộ.
-                        </p>
+                    <!-- CỘT PHẢI: Fast-Match ở trên, Mẫu đánh giá & Lưu ý ở ngay bên dưới -->
+                    <div class="right-col-stack">
+                        <!-- Fast-Match Banner -->
+                        <div class="match-box" id="how">
+                            <div>
+                                <h3>Fast-Match — đúng nhu cầu, nhanh hơn</h3>
+                                <p>
+                                    Phân tích môn học, lịch rảnh và khu vực để đề xuất 3–05 hồ sơ trợ giảng đã qua kiểm
+                                    duyệt.<br />
+                                    Nhận thông báo lớp mới qua email hoặc tin nhắn nội bộ.
+                                </p>
+                            </div>
+                            <button class="btn btn-lime"
+                                onclick="notify('Đã bật thông báo lớp mới qua email và tin nhắn nội bộ (demo).')">
+                                Bật thông báo&nbsp; ↗
+                            </button>
+                        </div>
+
+                        <!-- Mẫu đánh giá & Báo cáo học sinh -->
+                        <div class="panel student-eval-panel">
+                            <div class="panel-title">
+                                <h3>📝 Mẫu đánh giá & Báo cáo học sinh theo buổi/tuần</h3>
+                                <span class="tag">DÀNH CHO GIA SƯ</span>
+                            </div>
+
+                            <form id="studentEvalForm" onsubmit="handleSendEvaluation(event)">
+                                <div class="post-form-grid">
+                                    <div class="field">
+                                        <label>Tên học sinh</label>
+                                        <input type="text" id="evalStudentName" placeholder="Ví dụ: Nguyễn Minh Quân"
+                                            required />
+                                    </div>
+                                    <div class="field">
+                                        <label>Thời gian / Tuần học</label>
+                                        <input type="text" id="evalPeriod"
+                                            placeholder="Ví dụ: Tuần 2 - Tháng 11 / Buổi 5" required />
+                                    </div>
+                                </div>
+
+                                <div class="post-form-grid">
+                                    <div class="field">
+                                        <label>Thái độ & Độ tập trung (1-5 ⭐)</label>
+                                        <select id="evalAttitude" required>
+                                            <option value="5/5 - Rất tích cực, chủ động phát biểu">5/5 - Rất tích cực,
+                                                chủ động</option>
+                                            <option value="4/5 - Tập trung tốt, ngoan ngoãn">4/5 - Tập trung tốt
+                                            </option>
+                                            <option value="3/5 - Bình thường, đôi lúc xao nhãng">3/5 - Bình thường, đôi
+                                                lúc xao nhãng</option>
+                                            <option value="2/5 - Thiếu tập trung, cần nhắc nhở">2/5 - Thiếu tập trung
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="field">
+                                        <label>Mức độ tiếp thu bài</label>
+                                        <select id="evalComprehension" required>
+                                            <option value="Xuất sắc - Hiểu sâu & làm bài tốt">Xuất sắc - Hiểu sâu & làm
+                                                bài tốt</option>
+                                            <option value="Khá - Tiếp thu nhanh bài học">Khá - Tiếp thu nhanh</option>
+                                            <option value="Trung bình - Cần hướng dẫn thêm">Trung bình - Cần hướng dẫn
+                                                thêm</option>
+                                            <option value="Yếu - Chưa nắm chắc kiến thức cũ">Yếu - Chưa nắm chắc kiến
+                                                thức cũ</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label>Nội dung đã học & Tiến độ bài tập</label>
+                                    <input type="text" id="evalContent"
+                                        placeholder="Ví dụ: Đã hoàn thành Ôn tập Phân số, BTVN đạt 8/10" required />
+                                </div>
+
+                                <div class="field">
+                                    <label>Nhận xét chi tiết & Gợi ý cho Phụ huynh</label>
+                                    <textarea id="evalNotes" rows="3" class="form-textarea"
+                                        placeholder="Nhận xét ưu/nhược điểm trong buổi học và bài tập về nhà giao cho con..."
+                                        required></textarea>
+                                </div>
+
+                                <div class="upload-zone" style="margin-bottom: 15px;">
+                                    <div class="upload-icon">📄</div>
+                                    <div><b> Tải lên BTVN / Nhật ký học tập</b> (PDF, DOC, Ảnh · tối đa 10MB)</div>
+                                    <label for="BTVN">Chọn tệp từ thiết bị</label>
+                                    <input id="BTVN" type="file" accept=".pdf,.doc,.docx,image/*"
+                                        onchange="uploadBTVN(this)" />
+                                    <div id="fileName" class="subtle"></div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Gửi báo cáo cho Phụ huynh &nbsp;↗</button>
+                            </form>
+                        </div>
+
+                        <!-- Lưu ý quan trọng dành cho Gia sư & Trợ giảng -->
+                        <div class="panel ta-notes-panel">
+                            <div class="panel-title">
+                                <h3>📌 Lưu ý quan trọng dành cho Gia sư & Trợ giảng</h3>
+                                <span class="subtle">Quy tắc ứng xử & Giữ an toàn</span>
+                            </div>
+
+                            <div class="ta-notes-grid">
+                                <div class="ta-note-item">
+                                    <span class="note-icon">⏰</span>
+                                    <div>
+                                        <b>Đúng giờ & Tác phong chuyên nghiệp</b>
+                                        <p>Đến trước buổi học 5–10 phút (nếu dạy trực tiếp) hoặc chuẩn bị phòng
+                                            Zoom/Google Meet trước 5 phút. Trang phục lịch sự, chỉnh tề.</p>
+                                    </div>
+                                </div>
+
+                                <div class="ta-note-item">
+                                    <span class="note-icon">💬</span>
+                                    <div>
+                                        <b>Giao tiếp & Cập nhật thường xuyên</b>
+                                        <p>Chủ động gửi báo cáo đánh giá sau mỗi buổi hoặc mỗi tuần để Phụ huynh nắm rõ
+                                            tình hình tiến bộ của học sinh.</p>
+                                    </div>
+                                </div>
+
+                                <div class="ta-note-item">
+                                    <span class="note-icon">🛡️</span>
+                                    <div>
+                                        <b>Bảo mật thông tin & An toàn tài chính</b>
+                                        <p>Không chuyển tiền cọc/phí trung gian cho bất kỳ cá nhân nào ngoài các gói
+                                            thanh toán chính thức niêm yết trên Learn4Life.</p>
+                                    </div>
+                                </div>
+
+                                <div class="ta-note-item">
+                                    <span class="note-icon">📋</span>
+                                    <div>
+                                        <b>Chuẩn bị giáo án & Bài tập</b>
+                                        <p>Nắm rõ năng lực học sinh sau buổi test đầu tiên để xây dựng lộ trình cá nhân
+                                            hóa, không dạy dồn ép kiến thức.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button class="btn btn-lime"
-                        onclick="notify('Đã bật thông báo lớp mới qua email và tin nhắn nội bộ (demo).')">
-                        Bật thông báo&nbsp; ↗
-                    </button>
                 </div>
-            </div>
         </section>
 
         <section class="plans-section" id="plans">
@@ -366,7 +595,8 @@
                                     <li>Xem lớp học đang tuyển</li>
                                     <li>Nhận thông báo lớp mới</li>
                                 </ul>
-                                <button class="btn btn-outline" onclick="notify('Bạn đang dùng gói Trải Nghiệm.')">Gói hiện tại</button>
+                                <button class="btn btn-outline" onclick="notify('Bạn đang dùng gói Trải Nghiệm.')">Gói
+                                    hiện tại</button>
                             </article>
 
                             <article class="plan featured">
@@ -380,7 +610,8 @@
                                     <li>Nhãn Verified CV</li>
                                     <li>Hồ sơ nổi bật hơn</li>
                                 </ul>
-                                <button class="btn btn-primary" onclick="checkout('Khởi Động',49000)">Chọn Khởi Động</button>
+                                <button class="btn btn-primary" onclick="checkout('Khởi Động',49000)">Chọn Khởi
+                                    Động</button>
                             </article>
 
                             <article class="plan">
@@ -393,7 +624,8 @@
                                     <li>Đẩy top CV 14 ngày</li>
                                     <li>Tặng Bộ Toolkit Trợ giảng</li>
                                 </ul>
-                                <button class="btn btn-primary" onclick="checkout('Bứt Phá',99000)">Chọn Bứt Phá</button>
+                                <button class="btn btn-primary" onclick="checkout('Bứt Phá',99000)">Chọn Bứt
+                                    Phá</button>
                             </article>
                         </div>
                     </div>
@@ -413,13 +645,15 @@
                                     <li>Được sửa nội dung 3 lần</li>
                                     <li>Nhận 3–5 CV phù hợp trong 24h</li>
                                 </ul>
-                                <button class="btn btn-outline" onclick="checkout('Kết Nối Nhanh',79000)">Mua gói Kết Nối Nhanh</button>
+                                <button class="btn btn-outline" onclick="checkout('Kết Nối Nhanh',79000)">Mua gói Kết
+                                    Nối Nhanh</button>
                             </article>
                         </div>
                     </div>
                 </div>
                 <div class="notice">
-                    🛡️ <b>Chính sách an tâm:</b> Hoàn 100% lượt Apply vào tài khoản sinh viên nếu lớp bị hủy hoặc sai thông tin trong 48 giờ. Trường hợp lỗi kỹ thuật kích hoạt gói, hỗ trợ hoàn tiền trong 24 giờ.
+                    🛡️ <b>Chính sách an tâm:</b> Hoàn 100% lượt Apply vào tài khoản sinh viên nếu lớp bị hủy hoặc sai
+                    thông tin trong 48 giờ. Trường hợp lỗi kỹ thuật kích hoạt gói, hỗ trợ hoàn tiền trong 24 giờ.
                 </div>
             </div>
         </section>
@@ -441,7 +675,8 @@
             <div class="policy-header">
                 <span class="mode">📜 ĐIỀU KHOẢN & MIỄN TRỪ TRÁCH NHIỆM</span>
                 <h2>Chính sách & Quy định Sử dụng</h2>
-                <p class="policy-subtitle">Cập nhật lần cuối: 31/10/2026 · Vui lòng đọc kỹ trước khi bắt đầu trải nghiệm</p>
+                <p class="policy-subtitle">Cập nhật lần cuối: 31/10/2026 · Vui lòng đọc kỹ trước khi bắt đầu trải nghiệm
+                </p>
             </div>
             <div class="policy-tabs">
                 <button class="policy-tab active" onclick="switchPolicyTab('all', this)">Tất cả</button>
@@ -453,24 +688,28 @@
             <div class="policy-content" id="policyContent">
                 <div class="policy-section" data-cat="ta">
                     <div class="policy-card">
-                        <div class="policy-card-title"><span class="icon">🎓</span> 1. Chính sách Dành cho Gia sư & Trợ giảng</div>
+                        <div class="policy-card-title"><span class="icon">🎓</span> 1. Chính sách Dành cho Gia sư & Trợ
+                            giảng</div>
                         <div class="policy-card-body">
                             <h4>Quy trình duyệt hồ sơ & cấp nhãn Verified</h4>
                             <ul>
                                 <li><b>Tải hồ sơ:</b> Bạn cần tải CV bản chuẩn (PDF/DOC, tối đa 10MB) lên hệ thống.</li>
-                                <li><b>Duyệt nhãn uy tín:</b> Ban quản trị kiểm tra Thẻ sinh viên hoặc CCCD trực tuyến.</li>
+                                <li><b>Duyệt nhãn uy tín:</b> Ban quản trị kiểm tra Thẻ sinh viên hoặc CCCD trực tuyến.
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="policy-section" data-cat="parent">
                     <div class="policy-card">
-                        <div class="policy-card-title"><span class="icon">👨‍👩‍👧‍👦</span> 2. Chính sách Dành cho Phụ huynh</div>
+                        <div class="policy-card-title"><span class="icon">👨‍👩‍👧‍👦</span> 2. Chính sách Dành cho Phụ
+                            huynh</div>
                         <div class="policy-card-body">
                             <h4>Quy định đăng lớp & chỉnh sửa</h4>
                             <ul>
                                 <li>Mỗi <b>Gói Kết Nối Nhanh</b> tương đương với 1 lượt đăng bài tìm gia sư.</li>
-                                <li>Sau khi đăng, Phụ huynh được phép <b>chỉnh sửa thông tin tối đa 3 lần</b> qua giao diện Pop-up.</li>
+                                <li>Sau khi đăng, Phụ huynh được phép <b>chỉnh sửa thông tin tối đa 3 lần</b> qua giao
+                                    diện Pop-up.</li>
                             </ul>
                         </div>
                     </div>
@@ -482,7 +721,8 @@
                     <span>Tôi đã đọc, hiểu rõ và đồng ý với các điều khoản dịch vụ trên.</span>
                 </label>
                 <div class="policy-footer-actions">
-                    <button class="btn btn-primary" id="btnAcceptPolicy" disabled onclick="acceptPolicyAndContinue()">Đồng ý & Tiếp tục</button>
+                    <button class="btn btn-primary" id="btnAcceptPolicy" disabled
+                        onclick="acceptPolicyAndContinue()">Đồng ý & Tiếp tục</button>
                 </div>
             </div>
         </div>
@@ -494,7 +734,7 @@
             <button class="close" onclick="closeEditModal()">×</button>
             <h2>Chỉnh sửa thông tin lớp học</h2>
             <p id="editLimitNotice" class="modal-notice"></p>
-            
+
             <form onsubmit="handleSaveEditClass(event)">
                 <input type="hidden" id="editClassId" />
                 <div class="field">
@@ -640,11 +880,34 @@
                 const editCountText = isOwner && !isAdmin ? ` (Đã sửa ${c.editCount || 0}/3 lần)` : '';
 
                 const actionBtnsHtml = `
-                    <div class="class-action-btns">
-                        ${canEdit ? `<button class="btn btn-edit-class" onclick="openEditModal(${c.id}, event)">✏️ Chỉnh sửa${editCountText}</button>` : ''}
-                        ${canDelete ? `<button class="btn btn-delete-class" onclick="deleteClass(${c.id}, event)">🗑 Xóa</button>` : ''}
-                    </div>
-                `;
+            <div class="class-action-btns">
+                ${canEdit ? `<button class="btn btn-edit-class" onclick="openEditModal(${c.id}, event)">✏️ Chỉnh sửa${editCountText}</button>` : ''}
+                ${canDelete ? `<button class="btn btn-delete-class" onclick="deleteClass(${c.id}, event)">🗑 Xóa</button>` : ''}
+            </div>
+        `;
+
+                // --- XỬ LÝ TRẠNG THÁI NÚT ỨNG TUYỂN DÀNH CHO GIA SƯ ---
+                const isApplied = currentUser && currentUser.appliedClasses && currentUser.appliedClasses.includes(c.id);
+                const applyCredits = currentUser ? (currentUser.applyCredits || 0) : 0;
+                const hasApplyCredits = applyCredits > 0;
+
+                let applyBtnHtml = '';
+
+                if (currentUser && currentUser.role !== 'parent' && currentUser.role !== 'admin') {
+                    if (isApplied) {
+                        // Trường hợp 1: Đã ứng tuyển lớp này -> Khóa nút & đổi nhãn
+                        applyBtnHtml = `<button class="btn btn-outline" style="background:#e9f5ef; color:#0b614c; border-color:#b8e2c8; cursor:default;" disabled>✓ Đã ứng tuyển</button>`;
+                    } else if (hasApplyCredits) {
+                        // Trường hợp 2: Còn lượt & chưa ứng tuyển -> Đếm ngược số lượt
+                        applyBtnHtml = `<button class="btn btn-primary" onclick="handleApplyClass(${c.id}, event)">Ứng tuyển (${applyCredits} lượt)</button>`;
+                    } else {
+                        // Trường hợp 3: Hết lượt ứng tuyển
+                        applyBtnHtml = `<button class="btn btn-primary" onclick="lockedApply(event)">Ứng tuyển</button><span class="locked">🔒 Hết lượt ứng tuyển</span>`;
+                    }
+                } else {
+                    // Trường hợp 4: Khách chưa đăng nhập hoặc Phụ huynh / Admin
+                    applyBtnHtml = `<button class="btn btn-primary" onclick="lockedApply(event)">Ứng tuyển</button><span class="locked">🔒 Cần nâng cấp gói</span>`;
+                }
 
                 const levelBadges = c.levels && c.levels.length > 0 ? ` · ${c.levels.join(', ')}` : '';
                 const ownerBadge = isOwner ? `<span class="tag-owner">Lớp của bạn</span>` : '';
@@ -665,8 +928,7 @@
                 </div>
                 <div class="class-actions">
                     <div class="salary">${c.pay}</div>
-                    <button class="btn btn-primary" onclick="lockedApply(event)">Ứng tuyển</button>
-                    <span class="locked">🔒 Cần nâng cấp gói</span>
+                    ${applyBtnHtml}
                     ${actionBtnsHtml}
                 </div>
             </article>
@@ -679,7 +941,7 @@
 
         function handleCardClick(classId, event) {
             if (event.target.tagName === 'BUTTON' || event.target.closest('button')) return;
-            
+
             const c = classes.find(item => item.id === classId);
             const isAdmin = currentUser && (currentUser.role === 'admin' || currentUser.email === 'anomalousblu@gmail.com');
             const isOwner = currentUser && currentUser.email === c.ownerEmail;
@@ -829,6 +1091,11 @@
         }
 
         function checkout(name, price) {
+            if (!currentUser) {
+                notify('Vui lòng đăng nhập hoặc đăng ký tài khoản để mua gói dịch vụ!');
+                openAuthModal('login');
+                return;
+            }
             const planInfo = { name: name, price: price };
             localStorage.setItem('selected_plan', JSON.stringify(planInfo));
             window.location.href = 'checkout.html';
@@ -951,23 +1218,38 @@
                 const isAdminClass = currentUser.role === 'admin' ? 'admin' : '';
                 const avatarClass = currentUser.role === 'admin' ? 'avatar avatar-admin' : 'avatar';
 
-                navRight.innerHTML = `
-        <div class="nav-user-info">
-            <span class="nav-user-name ${isAdminClass}">
-                ${currentUser.name} (${roleName})
-            </span>
-            <div class="nav-badges">
-                ${planBadge}
-                ${parentCreditsBadge}
-                ${creditsBadge}
-            </div>
-        </div>
-        <div class="${avatarClass}">
-            ${currentUser.name.charAt(0).toUpperCase()}
-        </div>
-        <button class="btn btn-outline btn-sm" onclick="logout()">Đăng xuất</button>
-    `;
+                // --- XỬ LÝ HIỂN THỊ AVATAR TRÊN HEADBAR ---
+                const firstLetter = currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U';
+                const avatarHtml = currentUser.avatar
+                    ? `<img src="${currentUser.avatar}" class="avatar-img" alt="Avatar" />`
+                    : `<div class="${avatarClass}">${firstLetter}</div>`;
 
+                navRight.innerHTML = `
+            <div class="nav-user-info">
+                <span class="nav-user-name ${isAdminClass}">
+                    ${currentUser.name} (${roleName})
+                </span>
+                <div class="nav-badges">
+                    ${planBadge}
+                    ${parentCreditsBadge}
+                    ${creditsBadge}
+                </div>
+            </div>
+            ${avatarHtml}
+            <button class="btn btn-outline btn-sm" onclick="logout()">Đăng xuất</button>
+        `;
+
+                // --- CẬP NHẬT ẢNH PREVIEW TRONG MỤC HỒ SƠ ---
+                const previewBox = document.getElementById('avatarPreviewBox');
+                if (previewBox) {
+                    if (currentUser.avatar) {
+                        previewBox.innerHTML = `<img src="${currentUser.avatar}" class="avatar-preview-lg" alt="Avatar Preview" />`;
+                    } else {
+                        previewBox.innerHTML = `<div class="avatar-preview-lg">${firstLetter}</div>`;
+                    }
+                }
+
+                // Các logic phân quyền ẩn hiện giao diện giữ nguyên bên dưới...
                 if (currentUser.role === 'admin') {
                     if (profileSection) profileSection.style.display = 'block';
                     if (parentPostSection) parentPostSection.style.display = 'block';
@@ -997,14 +1279,41 @@
                 }
             } else {
                 navRight.innerHTML = `
-        <button class="btn btn-light" onclick="openAuthModal('login')">Đăng nhập</button>
-        <button class="btn btn-primary" onclick="openAuthModal('register')">Đăng ký</button>
-    `;
+            <button class="btn btn-light" onclick="openAuthModal('login')">Đăng nhập</button>
+            <button class="btn btn-primary" onclick="openAuthModal('register')">Đăng ký</button>
+        `;
                 if (profileSection) profileSection.style.display = 'block';
                 if (parentPostSection) parentPostSection.style.display = 'none';
                 if (plansTutor) plansTutor.style.display = 'block';
                 if (plansParent) plansParent.style.display = 'block';
             }
+            if (currentUser) {
+                updateProfileProgressUI(currentUser);
+            }
+
+            const tutorPanel = document.querySelector('#profile .split > .panel');
+            if (tutorPanel) {
+                if (!tutorPanel.id) tutorPanel.id = 'tutorProfilePanel';
+                applyAuthProtection(
+                    'tutorProfilePanel',
+                    'Đăng nhập để điền Hồ sơ Gia sư',
+                    'Vui lòng đăng nhập hoặc tạo tài khoản để cập nhật thông tin và CV của bạn.'
+                );
+            }
+
+            // 2. Mẫu đánh giá & Báo cáo học sinh
+            applyAuthProtection(
+                'student-eval-panel',
+                'Đăng nhập để dùng Mẫu đánh giá',
+                'Tính năng gửi báo cáo học tập dành riêng cho tài khoản Gia sư / Trợ giảng.'
+            );
+
+            // 3. Lưu ý quan trọng dành cho Gia sư & Trợ giảng
+            applyAuthProtection(
+                'ta-notes-panel',
+                'Đăng nhập để xem đầy đủ Lưu ý',
+                'Xem các quy tắc ứng xử, an toàn tài chính và hướng dẫn dành cho Gia sư.'
+            );
         }
 
         function handlePostClass(e) {
@@ -1173,6 +1482,261 @@
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
         });
+
+        function handleApplyClass(classId, event) {
+            if (event) event.stopPropagation();
+
+            if (!currentUser || currentUser.role === 'parent') {
+                notify('Tính năng ứng tuyển chỉ dành cho Gia sư / Trợ giảng.');
+                return;
+            }
+
+            let credits = currentUser.applyCredits || 0;
+            if (credits <= 0) {
+                notify('Bạn đã hết lượt ứng tuyển. Vui lòng nâng cấp gói Khởi Động hoặc Bứt Phá!');
+                setTimeout(() => document.getElementById('plans').scrollIntoView({ behavior: 'smooth' }), 800);
+                return;
+            }
+
+            // Khoản danh sách các lớp đã ứng tuyển
+            if (!currentUser.appliedClasses) {
+                currentUser.appliedClasses = [];
+            }
+
+            // Kiểm tra nếu đã ứng tuyển lớp này rồi
+            if (currentUser.appliedClasses.includes(classId)) {
+                notify('Bạn đã ứng tuyển lớp học này rồi!');
+                return;
+            }
+
+            // 1. Trừ 1 lượt ứng tuyển & Thêm ID lớp vào mảng đã ứng tuyển
+            currentUser.applyCredits = credits - 1;
+            currentUser.appliedClasses.push(classId);
+
+            // 2. Lưu vào user_session
+            localStorage.setItem('user_session', JSON.stringify(currentUser));
+
+            // 3. Đồng bộ lại vào registered_users trong LocalStorage
+            let users = JSON.parse(localStorage.getItem('registered_users')) || [];
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if (userIndex !== -1) {
+                users[userIndex].applyCredits = currentUser.applyCredits;
+                users[userIndex].appliedClasses = currentUser.appliedClasses;
+                localStorage.setItem('registered_users', JSON.stringify(users));
+            }
+
+            notify(`🎉 Ứng tuyển thành công! Bạn sẽ nhận được kết quả từ phụ huynh thông qua email. Bạn còn ${currentUser.applyCredits} lượt ứng tuyển.`);
+
+            // 4. Render lại giao diện
+            updateUserUI();
+            render(classes);
+        }
+
+        function handleUpdateAvatar(input) {
+            if (!input.files || !input.files[0]) return;
+
+            const file = input.files[0];
+
+            // Kiểm tra dung lượng (giới hạn tối đa 2MB để lưu vào LocalStorage mượt mà)
+            if (file.size > 2 * 1024 * 1024) {
+                notify('Ảnh avatar quá lớn! Vui lòng chọn ảnh nhỏ hơn 2MB.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const base64Image = e.target.result;
+
+                if (!currentUser) {
+                    notify('Vui lòng đăng nhập để cập nhật avatar!');
+                    return;
+                }
+
+                // 1. Cập nhật vào phiên đăng nhập hiện tại
+                currentUser.avatar = base64Image;
+                localStorage.setItem('user_session', JSON.stringify(currentUser));
+
+                // 2. Đồng bộ vào danh sách registered_users
+                let users = JSON.parse(localStorage.getItem('registered_users')) || [];
+                const userIndex = users.findIndex(u => u.email === currentUser.email);
+                if (userIndex !== -1) {
+                    users[userIndex].avatar = base64Image;
+                    localStorage.setItem('registered_users', JSON.stringify(users));
+                }
+
+                notify('🎉 Cập nhật avatar thành công!');
+                updateUserUI(); // Render lại giao diện thanh topbar & preview hồ sơ
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        // Danh sách các trường dữ liệu cần kiểm tra tính hoàn thiện
+        const PROFILE_FIELDS = [
+            'tutorName', 'tutorDob', 'tutorGender', 'tutorPhone',
+            'tutorSchool', 'tutorMajor', 'tutorSubjects', 'tutorGrades',
+            'tutorTeachingType', 'tutorArea', 'tutorBio'
+        ];
+
+        // Hàm tính % hoàn thiện hồ sơ dựa trên các trường thông tin đã điền + Avatar + CV
+        function calculateProfileCompletion(user) {
+            let completedFields = 0;
+            const tp = user.tutorProfile || {};
+
+            // 1. Kiểm tra Avatar
+            if (user.avatar) completedFields += 1;
+
+            // 2. Kiểm tra các trường thông tin nhập trong form (11 trường)
+            PROFILE_FIELDS.forEach(fieldId => {
+                const key = fieldId.replace('tutor', '').toLowerCase(); // Ví dụ: tutorName -> name
+                const formInput = document.getElementById(fieldId);
+
+                // Lấy giá trị từ form nếu có, hoặc từ đối tượng tutorProfile
+                const value = formInput ? formInput.value.trim() : (tp[key] || '');
+                if (value !== '') {
+                    completedFields += 1;
+                }
+            });
+
+            // Tổng số tiêu chí kiểm tra = 1 (Avatar) + 11 (trường thông tin) = 12 tiêu chí
+            const totalCriteria = 1 + PROFILE_FIELDS.length;
+            const percentage = Math.round((completedFields / totalCriteria) * 100);
+
+            return percentage;
+        }
+
+        // Hàm cập nhật giao diện hiển thị Thanh Tiến Độ %
+        function updateProfileProgressUI(user) {
+            if (!user) return;
+
+            const percent = calculateProfileCompletion(user);
+            const progressBar = document.getElementById('profileProgressBar');
+            const percentText = document.getElementById('profilePercentText');
+
+            if (progressBar) progressBar.style.width = percent + '%';
+            if (percentText) percentText.textContent = percent + '%';
+        }
+
+        // Hàm lưu hồ sơ Gia sư khi người dùng nhấn nút Save
+        function handleSaveTutorProfile(e) {
+            e.preventDefault();
+            if (!currentUser) {
+                notify('Vui lòng đăng nhập để lưu hồ sơ gia sư!');
+                return;
+            }
+
+            const profileData = {
+                name: document.getElementById('tutorName').value.trim(),
+                dob: document.getElementById('tutorDob').value,
+                gender: document.getElementById('tutorGender').value,
+                phone: document.getElementById('tutorPhone').value.trim(),
+                school: document.getElementById('tutorSchool').value.trim(),
+                major: document.getElementById('tutorMajor').value.trim(),
+                subjects: document.getElementById('tutorSubjects').value.trim(),
+                grades: document.getElementById('tutorGrades').value.trim(),
+                teachingType: document.getElementById('tutorTeachingType').value,
+                area: document.getElementById('tutorArea').value.trim(),
+                bio: document.getElementById('tutorBio').value.trim()
+            };
+
+            currentUser.tutorProfile = profileData;
+            if (profileData.name) currentUser.name = profileData.name;
+
+            // Lưu phiên làm việc
+            localStorage.setItem('user_session', JSON.stringify(currentUser));
+
+            // Đồng bộ danh sách tài khoản registered_users
+            let users = JSON.parse(localStorage.getItem('registered_users')) || [];
+            const idx = users.findIndex(u => u.email === currentUser.email);
+            if (idx !== -1) {
+                users[idx].tutorProfile = profileData;
+                if (profileData.name) users[idx].name = profileData.name;
+                localStorage.setItem('registered_users', JSON.stringify(users));
+            }
+
+            // Cập nhật % ngay lập tức
+            updateProfileProgressUI(currentUser);
+            notify('🎉 Đã lưu thông tin hồ sơ gia sư thành công!');
+            updateUserUI();
+        }
+
+        // Bổ sung load dữ liệu hồ sơ vào hàm updateUserUI()
+        // (Thêm đoạn code này bên trong hàm updateUserUI() khi currentUser tồn tại):
+        if (currentUser.tutorProfile) {
+            const tp = currentUser.tutorProfile;
+            if (document.getElementById('tutorName')) document.getElementById('tutorName').value = tp.name || currentUser.name || '';
+            if (document.getElementById('tutorDob')) document.getElementById('tutorDob').value = tp.dob || '';
+            if (document.getElementById('tutorGender')) document.getElementById('tutorGender').value = tp.gender || '';
+            if (document.getElementById('tutorPhone')) document.getElementById('tutorPhone').value = tp.phone || '';
+            if (document.getElementById('tutorSchool')) document.getElementById('tutorSchool').value = tp.school || '';
+            if (document.getElementById('tutorMajor')) document.getElementById('tutorMajor').value = tp.major || '';
+            if (document.getElementById('tutorSubjects')) document.getElementById('tutorSubjects').value = tp.subjects || '';
+            if (document.getElementById('tutorGrades')) document.getElementById('tutorGrades').value = tp.grades || '';
+            if (document.getElementById('tutorTeachingType')) document.getElementById('tutorTeachingType').value = tp.teachingType || 'Cả hai';
+            if (document.getElementById('tutorArea')) document.getElementById('tutorArea').value = tp.area || '';
+            if (document.getElementById('tutorBio')) document.getElementById('tutorBio').value = tp.bio || '';
+
+            if (document.getElementById('profileProgressBar')) document.getElementById('profileProgressBar').style.width = '100%';
+            if (document.getElementById('profilePercentText')) document.getElementById('profilePercentText').textContent = '100%';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cập nhật % theo thời gian thực khi người dùng gõ vào form
+            const profileForm = document.getElementById('tutorProfileForm');
+            if (profileForm) {
+                profileForm.addEventListener('input', () => {
+                    if (currentUser) updateProfileProgressUI(currentUser);
+                });
+                profileForm.addEventListener('change', () => {
+                    if (currentUser) updateProfileProgressUI(currentUser);
+                });
+            }
+        });
+        function applyAuthProtection(containerId, titleText, descText) {
+            const container = document.getElementById(containerId) || document.querySelector('.' + containerId);
+            if (!container) return;
+
+            const isLoggedIn = !!currentUser;
+            let overlay = container.querySelector('.auth-overlay');
+
+            if (!isLoggedIn) {
+                container.classList.add('auth-protected-zone');
+
+                // Mờ toàn bộ con bên trong trừ chính overlay
+                Array.from(container.children).forEach(child => {
+                    if (!child.classList.contains('auth-overlay')) {
+                        child.classList.add('auth-blur-content');
+                    }
+                });
+
+                // Tạo overlay nếu chưa có
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.className = 'auth-overlay';
+                    overlay.innerHTML = `
+                <div class="auth-overlay-icon">🔒</div>
+                <div class="auth-overlay-title">${titleText}</div>
+                <div class="auth-overlay-desc">${descText}</div>
+                <div class="auth-overlay-actions">
+                    <button class="btn btn-primary btn-sm" onclick="openAuthModal('login')">Đăng nhập</button>
+                    <button class="btn btn-outline btn-sm" onclick="openAuthModal('register')">Đăng ký</button>
+                </div>
+            `;
+                    container.appendChild(overlay);
+                } else {
+                    overlay.style.display = 'flex';
+                }
+            } else {
+                // Đã đăng nhập -> Bỏ mờ & Ẩn overlay
+                container.classList.remove('auth-protected-zone');
+                Array.from(container.children).forEach(child => {
+                    child.classList.remove('auth-blur-content');
+                });
+                if (overlay) {
+                    overlay.style.display = 'none';
+                }
+            }
+        }
     </script>
 </body>
 

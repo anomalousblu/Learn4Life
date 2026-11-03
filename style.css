@@ -1466,3 +1466,174 @@ a {
         font-size: 36px;
     }
 }
+
+/* Styling Avatar hiển thị hình ảnh */
+.avatar-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--green);
+}
+
+.avatar-upload-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f8faf8;
+    border: 1px solid var(--line);
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+
+.avatar-preview-lg {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #e5f1e9;
+    color: var(--green);
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    font-weight: 800;
+    object-fit: cover;
+    border: 2px solid var(--green);
+    flex-shrink: 0;
+}
+.form-textarea {
+    width: 100%;
+    border: 1px solid #e5ebe6;
+    background: #fff;
+    padding: 11px;
+    border-radius: 8px;
+    color: var(--ink);
+    outline: none;
+    font-size: 13px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.form-textarea:focus {
+    border-color: #76ae90;
+}
+
+.tutor-profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.student-eval-panel {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+}
+
+.ta-notes-panel {
+    background: #fafdfb;
+    border: 1px solid #dbe8df;
+    border-radius: 14px;
+}
+
+.ta-notes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.ta-note-item {
+    display: flex;
+    gap: 12px;
+    background: #ffffff;
+    border: 1px solid #e6ece8;
+    padding: 14px;
+    border-radius: 10px;
+}
+
+.ta-note-item .note-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.ta-note-item b {
+    font-size: 13px;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.ta-note-item p {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.5;
+}
+/* Căn chỉnh cột phải xếp chồng Fast-Match và các Panel bên dưới */
+.right-col-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.right-col-stack .match-box {
+    margin-top: 0;
+}
+@media (max-width: 680px) {
+    .ta-notes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.auth-protected-zone {
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-blur-content {
+    filter: blur(4px);
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.auth-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(2px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    border-radius: 14px;
+}
+
+.auth-overlay-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.auth-overlay-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+}
+
+.auth-overlay-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    max-width: 320px;
+}
+
+.auth-overlay-actions {
+    display: flex;
+    gap: 10px;
+}
