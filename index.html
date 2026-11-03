@@ -19,7 +19,6 @@
                 <a href="javascript:void(0)" onclick="openPolicyModal(false)">Policy / Disclaimer</a>
             </nav>
             <div class="nav-right" id="navRight">
-                <!-- Hiển thị mặc định khi chưa đăng nhập -->
                 <button class="btn btn-light" onclick="openAuthModal('login')">Đăng nhập</button>
                 <button class="btn btn-primary" onclick="openAuthModal('register')">Đăng ký</button>
             </div>
@@ -84,6 +83,7 @@
             </div>
         </section>
 
+        <!-- Section Tìm lớp học -->
         <section class="section" id="classes">
             <div class="shell">
                 <div class="section-head">
@@ -91,14 +91,24 @@
                         <div class="eyebrow">Cơ hội mới mỗi ngày</div>
                         <h2>Lớp học đang tìm trợ giảng</h2>
                     </div>
-                    <p id="resultCount">4 lớp đang tuyển</p>
+                    <p id="resultCount">0 lớp đang tuyển</p>
                 </div>
                 <div class="content-grid">
                     <aside class="filter-card">
                         <h3>Tìm lớp phù hợp</h3>
                         <div class="field">
-                            <label>Từ khóa / môn học</label>
-                            <input id="searchInput" placeholder="Ví dụ: Toán, tiếng Anh" />
+                            <label>Môn học</label>
+                            <select id="subjectFilter">
+                                <option value="">Tất cả môn học</option>
+                                <option value="Toán">Toán</option>
+                                <option value="Tiếng Anh">Tiếng Anh</option>
+                                <option value="Tiếng Việt">Tiếng Việt</option>
+                                <option value="Vật lý">Vật lý</option>
+                                <option value="Hóa học">Hóa học</option>
+                                <option value="Sinh học">Sinh học</option>
+                                <option value="STEM">STEM</option>
+                                <option value="Tin học">Tin học</option>
+                            </select>
                         </div>
                         <div class="field">
                             <label>Khu vực</label>
@@ -108,6 +118,10 @@
                                 <option>Ba Đình</option>
                                 <option>Hoàn Kiếm</option>
                                 <option>Hưng Yên</option>
+                                <option>Hà Đông</option>
+                                <option>Cầu Giấy</option>
+                                <option>Đống Đa</option>
+                                <option>Đại Mỗ</option>
                             </select>
                         </div>
                         <div class="field">
@@ -118,6 +132,15 @@
                                 <option>Online</option>
                             </select>
                         </div>
+
+                        <div class="field">
+                            <label>Trình độ</label>
+                            <div class="level-checkbox-group">
+                                <label><input type="checkbox" id="filterBasic" /> Cơ bản</label>
+                                <label><input type="checkbox" id="filterAdvanced" /> Nâng cao</label>
+                            </div>
+                        </div>
+
                         <label class="check">
                             <input type="checkbox" id="urgentFilter" /> Chỉ xem lớp cần gấp
                         </label>
@@ -133,7 +156,125 @@
             </div>
         </section>
 
-        <section class="section" id="profile" style="padding-top:4px">
+        <!-- Khu vực dành cho Phụ huynh đăng tìm gia sư -->
+        <section class="section section-tight" id="parentPostSection">
+            <div class="shell">
+                <div class="section-head">
+                    <div>
+                        <div class="eyebrow">Dành cho Phụ huynh / Học sinh</div>
+                        <h2>Đăng thông tin tìm gia sư & Fast-Match</h2>
+                    </div>
+                    <p>Kết nối 3–5 hồ sơ phù hợp trong 24 giờ</p>
+                </div>
+
+                <!-- Trạng thái 1: Chưa mua/hết lượt đăng gói Kết Nối Nhanh -->
+                <div id="parentLockedNotice" class="panel parent-locked-notice">
+                    <div class="parent-locked-icon">🔒</div>
+                    <h3 class="parent-locked-title">Bạn chưa có lượt đăng lớp học</h3>
+                    <p class="parent-locked-text">
+                        Nâng cấp hoặc mua thêm gói <b>Kết Nối Nhanh (79.000đ)</b> để nhận 1 lượt đăng lớp và 3 lần chỉnh sửa thông tin.
+                    </p>
+                    <a href="#plans" class="btn btn-primary" onclick="checkPolicyAndNavigate(event, '#plans')">Nâng cấp gói ngay &nbsp;→</a>
+                </div>
+
+                <!-- Trạng thái 2: Còn lượt đăng gói -> Hiện form nhập liệu -->
+                <div id="parentPostForm" class="panel">
+                    <div class="panel-title">
+                        <h3>Form gửi thông tin nhu cầu tìm gia sư</h3>
+                        <span class="tag tag-active-plan" id="postQuotaBadge">✓ Còn lượt đăng lớp</span>
+                    </div>
+                    <form onsubmit="handlePostClass(event)">
+                        <div class="post-form-grid">
+                            <div class="field">
+                                <label>Môn học</label>
+                                <select id="postSubject" required>
+                                    <option value="">Chọn môn học</option>
+                                    <option value="Toán">Toán</option>
+                                    <option value="Tiếng Anh">Tiếng Anh</option>
+                                    <option value="Tiếng Việt">Tiếng Việt</option>
+                                    <option value="Vật lý">Vật lý</option>
+                                    <option value="Hóa học">Hóa học</option>
+                                    <option value="Sinh học">Sinh học</option>
+                                    <option value="STEM">STEM</option>
+                                    <option value="Tin học">Tin học</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Khu vực / Địa điểm</label>
+                                <select id="postArea" required>
+                                    <option value="">Chọn khu vực</option>
+                                    <option>Ba Đình</option>
+                                    <option>Cầu Giấy</option>
+                                    <option>Đống Đa</option>
+                                    <option>Hai Bà Trưng</option>
+                                    <option>Hoàng Mai</option>
+                                    <option>Long Biên</option>
+                                    <option>Hà Đông</option>
+                                    <option>Tây Hồ</option>
+                                    <option>Thanh Xuân</option>
+                                    <option>Nam Từ Liêm</option>
+                                    <option>Bắc Từ Liêm</option>
+                                    <option>Online</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="post-form-grid">
+                            <div class="field">
+                                <label>Lớp học</label>
+                                <select id="postGrade" required>
+                                    <option value="">Chọn lớp học</option>
+                                    <option>Lớp 1</option>
+                                    <option>Lớp 2</option>
+                                    <option>Lớp 3</option>
+                                    <option>Lớp 4</option>
+                                    <option>Lớp 5</option>
+                                    <option>Lớp 6</option>
+                                    <option>Lớp 7</option>
+                                    <option>Lớp 8</option>
+                                    <option>Lớp 9</option>
+                                    <option>Lớp 10</option>
+                                    <option>Lớp 11</option>
+                                    <option>Lớp 12</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label>Trình độ yêu cầu</label>
+                                <div class="level-checkbox-group">
+                                    <label><input type="checkbox" id="postLevelBasic" value="Cơ bản" /> Cơ bản</label>
+                                    <label><input type="checkbox" id="postLevelAdvanced" value="Nâng cao" /> Nâng cao</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="post-form-grid">
+                            <div class="field">
+                                <label>Hình thức học</label>
+                                <select id="postType" required>
+                                    <option>Trực tiếp</option>
+                                    <option>Online</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label>Mức thù lao dự kiến (/buổi)</label>
+                                <input type="text" id="postPay" placeholder="Ví dụ: 150.000đ / buổi" required />
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>Lịch học & Yêu cầu thêm</label>
+                            <input type="text" id="postSchedule"
+                                placeholder="Ví dụ: T3, T5 hàng tuần từ 18h; Yêu cầu SV Sư phạm" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary post-form-submit-btn">Đăng lớp ngay (Dùng 1 gói Kết Nối Nhanh) &nbsp;↗</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-tight" id="profile">
             <div class="shell">
                 <div class="section-head">
                     <div>
@@ -153,7 +294,7 @@
                             <div><b>Tải lên CV chuẩn hóa</b> (PDF, DOC · tối đa 10MB)</div>
                             <label for="cvFile">Chọn tệp từ thiết bị</label>
                             <input id="cvFile" type="file" accept=".pdf,.doc,.docx" onchange="uploadCV(this)" />
-                            <div id="fileName" class="subtle" style="margin-top:7px"></div>
+                            <div id="fileName" class="subtle"></div>
                         </div>
                         <div class="profile-progress">
                             <div></div>
@@ -162,9 +303,8 @@
                             <span>Hoàn thiện hồ sơ</span>
                             <b>72%</b>
                         </div>
-                        <div class="notice" style="margin-top:14px">
-                            🔒 Nhãn <b>Verified CV</b> sẽ được mở sau khi hồ sơ được kiểm duyệt và nâng cấp gói Khởi
-                            Động trở lên.
+                        <div class="notice">
+                            🔒 Nhãn <b>Verified CV</b> sẽ được mở sau khi hồ sơ được kiểm duyệt và nâng cấp gói Khởi Động trở lên.
                         </div>
                     </div>
                     <div class="panel">
@@ -191,8 +331,7 @@
                     <div>
                         <h3>Fast-Match — đúng nhu cầu, nhanh hơn</h3>
                         <p>
-                            Phân tích môn học, lịch rảnh và khu vực để đề xuất 3–05 hồ sơ trợ giảng đã qua kiểm
-                            duyệt.<br />
+                            Phân tích môn học, lịch rảnh và khu vực để đề xuất 3–05 hồ sơ trợ giảng đã qua kiểm duyệt.<br />
                             Nhận thông báo lớp mới qua email hoặc tin nhắn nội bộ.
                         </p>
                     </div>
@@ -214,7 +353,6 @@
                     <p>Kiểm tra thông tin trước khi thanh toán.</p>
                 </div>
                 <div class="plans-wrapper">
-                    <!-- Nhóm gói dành cho Gia sư & Trợ giảng -->
                     <div class="plans-group">
                         <div class="group-title">Dành cho Gia sư & Trợ giảng</div>
                         <div class="plans-subgrid tutor-plans">
@@ -228,8 +366,7 @@
                                     <li>Xem lớp học đang tuyển</li>
                                     <li>Nhận thông báo lớp mới</li>
                                 </ul>
-                                <button class="btn btn-outline" onclick="notify('Bạn đang dùng gói Trải Nghiệm.')">Gói
-                                    hiện tại</button>
+                                <button class="btn btn-outline" onclick="notify('Bạn đang dùng gói Trải Nghiệm.')">Gói hiện tại</button>
                             </article>
 
                             <article class="plan featured">
@@ -243,8 +380,7 @@
                                     <li>Nhãn Verified CV</li>
                                     <li>Hồ sơ nổi bật hơn</li>
                                 </ul>
-                                <button class="btn btn-primary" onclick="checkout('Khởi Động',49000)">Chọn Khởi
-                                    Động</button>
+                                <button class="btn btn-primary" onclick="checkout('Khởi Động',49000)">Chọn Khởi Động</button>
                             </article>
 
                             <article class="plan">
@@ -257,8 +393,7 @@
                                     <li>Đẩy top CV 14 ngày</li>
                                     <li>Tặng Bộ Toolkit Trợ giảng</li>
                                 </ul>
-                                <button class="btn btn-primary" onclick="checkout('Bứt Phá',99000)">Chọn Bứt
-                                    Phá</button>
+                                <button class="btn btn-primary" onclick="checkout('Bứt Phá',99000)">Chọn Bứt Phá</button>
                             </article>
                         </div>
                     </div>
@@ -270,24 +405,21 @@
                         <div class="plans-subgrid parent-plans">
                             <article class="plan">
                                 <h3>Kết Nối Nhanh</h3>
-                                <div class="for">Dành riêng cho phụ huynh / học sinh</div>
+                                <div class="for">1 gói = 1 lớp học (Sửa 3 lần)</div>
                                 <div class="price">79.000đ</div>
                                 <div class="plan-desc">Để Fast-Match tìm người phù hợp.</div>
                                 <ul>
-                                    <li>Đăng tuyển lớp học</li>
-                                    <li>Nhận 3–05 CV phù hợp</li>
-                                    <li>Trong vòng 24 giờ</li>
+                                    <li>1 lượt đăng tuyển lớp học</li>
+                                    <li>Được sửa nội dung 3 lần</li>
+                                    <li>Nhận 3–5 CV phù hợp trong 24h</li>
                                 </ul>
-                                <button class="btn btn-outline" onclick="checkout('Kết Nối Nhanh',79000)">Chọn gói phụ
-                                    huynh / học sinh</button>
+                                <button class="btn btn-outline" onclick="checkout('Kết Nối Nhanh',79000)">Mua gói Kết Nối Nhanh</button>
                             </article>
                         </div>
                     </div>
                 </div>
                 <div class="notice">
-                    🛡️ <b>Chính sách an tâm:</b> Hoàn 100% lượt Apply vào tài khoản sinh viên nếu lớp bị hủy hoặc sai
-                    thông tin trong 48 giờ. Trường hợp lỗi kỹ thuật kích hoạt gói, hỗ trợ hoàn tiền trong 24 giờ. Quy
-                    trình trên được mô phỏng trong bản demo.
+                    🛡️ <b>Chính sách an tâm:</b> Hoàn 100% lượt Apply vào tài khoản sinh viên nếu lớp bị hủy hoặc sai thông tin trong 48 giờ. Trường hợp lỗi kỹ thuật kích hoạt gói, hỗ trợ hoàn tiền trong 24 giờ.
                 </div>
             </div>
         </section>
@@ -295,28 +427,22 @@
 
     <footer class="footer">
         <div class="shell footer-inner">
-            <span class="brand" style="font-size:16px">learn<span>4</span>life<span>.</span></span>
+            <span class="brand brand-footer">learn<span>4</span>life<span>.</span></span>
             <span>Kết nối tri thức, mở lối tương lai.</span>
-            <a href="javascript:void(0)" onclick="openPolicyModal(false)" style="text-decoration: underline;">Điều khoản
-                &
-                Miễn trừ trách nhiệm</a>
+            <a href="javascript:void(0)" onclick="openPolicyModal(false)">Điều khoản & Miễn trừ trách nhiệm</a>
             <span>© 2026 Learn4Life · Bản demo</span>
         </div>
     </footer>
 
-    <!-- Modal Policy Nâng Cấp -->
+    <!-- Modal Policy -->
     <div class="modal-backdrop" id="policyModal">
         <div class="modal modal-policy">
             <button class="close" id="policyCloseBtn" onclick="closePolicyModal()">×</button>
-
             <div class="policy-header">
                 <span class="mode">📜 ĐIỀU KHOẢN & MIỄN TRỪ TRÁCH NHIỆM</span>
                 <h2>Chính sách & Quy định Sử dụng</h2>
-                <p class="policy-subtitle">Cập nhật lần cuối: 31/10/2026 · Vui lòng đọc kỹ trước khi bắt đầu trải nghiệm
-                </p>
+                <p class="policy-subtitle">Cập nhật lần cuối: 31/10/2026 · Vui lòng đọc kỹ trước khi bắt đầu trải nghiệm</p>
             </div>
-
-            <!-- Tab Filter Policy -->
             <div class="policy-tabs">
                 <button class="policy-tab active" onclick="switchPolicyTab('all', this)">Tất cả</button>
                 <button class="policy-tab" onclick="switchPolicyTab('ta', this)">Gia sư / Trợ giảng</button>
@@ -324,453 +450,118 @@
                 <button class="policy-tab" onclick="switchPolicyTab('privacy', this)">Bảo mật</button>
                 <button class="policy-tab" onclick="switchPolicyTab('refund', this)">Hoàn tiền</button>
             </div>
-
             <div class="policy-content" id="policyContent">
-                <!-- Section 1 -->
                 <div class="policy-section" data-cat="ta">
                     <div class="policy-card">
-                        <div class="policy-card-title">
-                            <span class="icon">🎓</span> 1. Chính sách Dành cho Gia sư & Trợ giảng
-                        </div>
+                        <div class="policy-card-title"><span class="icon">🎓</span> 1. Chính sách Dành cho Gia sư & Trợ giảng</div>
                         <div class="policy-card-body">
                             <h4>Quy trình duyệt hồ sơ & cấp nhãn Verified</h4>
                             <ul>
                                 <li><b>Tải hồ sơ:</b> Bạn cần tải CV bản chuẩn (PDF/DOC, tối đa 10MB) lên hệ thống.</li>
-                                <li><b>Duyệt nhãn uy tín:</b> Ban quản trị kiểm tra Thẻ sinh viên hoặc CCCD trực tuyến.
-                                    Đạt yêu cầu và dùng gói Khởi Động trở lên sẽ có nhãn <b>✓ Verified</b>.</li>
-                                <li><b>Bảo mật giấy tờ:</b> Ảnh xác thực sẽ được xóa hoàn toàn khỏi hệ thống ngay sau
-                                    khi chấm điểm/kiểm duyệt hoàn tất.</li>
-                            </ul>
-
-                            <h4>Chính sách hoàn trả lượt ứng tuyển (Credit Return)</h4>
-                            <p>Hệ thống sẽ hoàn lại <b>100% lượt ứng tuyển</b> vào tài khoản trong vòng 48 giờ nếu gặp
-                                trường hợp:</p>
-                            <ul>
-                                <li>Lớp học bị hủy hoặc thông tin lớp sai lệch (môn học, địa điểm, lịch học).</li>
-                                <li>Phụ huynh hủy bài đăng do thay đổi kế hoạch gia đình.</li>
-                                <li>Lớp đã có người nhận trước khi hồ sơ của bạn được xử lý.</li>
-                            </ul>
-
-                            <h4>Bộ Toolkit & Tính năng Đẩy Top CV</h4>
-                            <ul>
-                                <li><b>Bộ Toolkit Trợ giảng:</b> Gửi qua email sau khi kích hoạt thành công gói Bứt Phá.
-                                </li>
-                                <li><b>Đẩy Top CV:</b> Ưu tiên hiển thị trên danh sách đề xuất trong vòng 14 ngày.</li>
+                                <li><b>Duyệt nhãn uy tín:</b> Ban quản trị kiểm tra Thẻ sinh viên hoặc CCCD trực tuyến.</li>
                             </ul>
                         </div>
                     </div>
                 </div>
-
-                <!-- Section 2 -->
                 <div class="policy-section" data-cat="parent">
                     <div class="policy-card">
-                        <div class="policy-card-title">
-                            <span class="icon">👨‍👩‍👧‍👦</span> 2. Chính sách Dành cho Phụ huynh
-                        </div>
+                        <div class="policy-card-title"><span class="icon">👨‍👩‍👧‍👦</span> 2. Chính sách Dành cho Phụ huynh</div>
                         <div class="policy-card-body">
-                            <h4>Thời gian giao nhận dịch vụ Fast-Match</h4>
+                            <h4>Quy định đăng lớp & chỉnh sửa</h4>
                             <ul>
-                                <li>Sau khi đăng tuyển, hệ thống gửi <b>3–5 hồ sơ Trợ giảng phù hợp</b> trong vòng 24
-                                    giờ.</li>
-                                <li>Phụ huynh được chủ động xem chi tiết, liên hệ trực tiếp với Trợ giảng.</li>
-                                <li>Nếu chưa hài lòng, phụ huynh có quyền yêu cầu hỗ trợ đề xuất thêm hồ sơ khác trong
-                                    48 giờ.</li>
+                                <li>Mỗi <b>Gói Kết Nối Nhanh</b> tương đương với 1 lượt đăng bài tìm gia sư.</li>
+                                <li>Sau khi đăng, Phụ huynh được phép <b>chỉnh sửa thông tin tối đa 3 lần</b> qua giao diện Pop-up.</li>
                             </ul>
-
-                            <h4>Cam kết minh bạch thông tin</h4>
-                            <p>Mức thù lao (100.000đ – 180.000đ/buổi) và hình thức học (Trực tiếp / Online) luôn được
-                                hiển thị công khai. Mọi thỏa thuận chi tiết là giao dịch trực tiếp giữa gia đình và gia
-                                sư. Learn4Life không can thiệp vào các điều khoản cá nhân phát sinh ngoài nền tảng.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section 3 -->
-                <div class="policy-section" data-cat="privacy">
-                    <div class="policy-card">
-                        <div class="policy-card-title">
-                            <span class="icon">🔒</span> 3. Bảo mật & Bảo vệ Người dùng
-                        </div>
-                        <div class="policy-card-body">
-                            <h4>Ẩn thông tin liên hệ</h4>
-                            <p>Số điện thoại, email và địa chỉ nhà chi tiết được ẩn hoàn toàn khỏi danh sách công khai.
-                                Thông tin chỉ xuất hiện khi hai bên chủ động bấm chấp nhận kết nối.</p>
-
-                            <h4>Chính sách bảo vệ Beta Tester</h4>
-                            <p>Mọi thông tin cá nhân và giao dịch thử nghiệm trong bản Demo hoàn toàn được lưu giữ trong
-                                môi trường mô phỏng an toàn. Bạn có thể yêu cầu xóa dữ liệu cá nhân bất kỳ lúc nào.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section 4 -->
-                <div class="policy-section" data-cat="refund">
-                    <div class="policy-card">
-                        <div class="policy-card-title">
-                            <span class="icon">💸</span> 4. Chính sách Hoàn tiền Giả lập (Test Mode)
-                        </div>
-                        <div class="policy-card-body">
-                            <p>Website đang hoạt động ở chế độ <b>TEST MODE</b>. Không có bất kỳ giao dịch tài chính
-                                thật nào được phát sinh.</p>
-                            <p>Trường hợp gặp lỗi không kích hoạt được gói dịch vụ mô phỏng trong 24 giờ, hệ thống sẽ
-                                thực hiện thao tác hoàn tiền giả lập 100% trên bảng điều khiển để đảm bảo luồng trải
-                                nghiệm e-commerce chuẩn hóa.</p>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Footer hành động của Modal -->
             <div class="policy-footer">
                 <label class="policy-agree-check" id="agreeContainer">
                     <input type="checkbox" id="policyAgreeCheckbox" onchange="toggleAgreeButton(this.checked)" />
                     <span>Tôi đã đọc, hiểu rõ và đồng ý với các điều khoản dịch vụ trên.</span>
                 </label>
-
                 <div class="policy-footer-actions">
-                    <button class="btn btn-primary" id="btnAcceptPolicy" disabled onclick="acceptPolicyAndContinue()">
-                        Đồng ý & Tiếp tục
-                    </button>
+                    <button class="btn btn-primary" id="btnAcceptPolicy" disabled onclick="acceptPolicyAndContinue()">Đồng ý & Tiếp tục</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="toast" id="toast"></div>
+    <!-- Modal Pop-up Chỉnh Sửa Lớp Học -->
+    <div class="modal-backdrop" id="editClassModal">
+        <div class="modal modal-wide">
+            <button class="close" onclick="closeEditModal()">×</button>
+            <h2>Chỉnh sửa thông tin lớp học</h2>
+            <p id="editLimitNotice" class="modal-notice"></p>
+            
+            <form onsubmit="handleSaveEditClass(event)">
+                <input type="hidden" id="editClassId" />
+                <div class="field">
+                    <label>Tiêu đề bài đăng</label>
+                    <input type="text" id="editTitle" required />
+                </div>
+                <div class="post-form-grid">
+                    <div class="field">
+                        <label>Môn học</label>
+                        <select id="editSubject" required>
+                            <option value="Toán">Toán</option>
+                            <option value="Tiếng Anh">Tiếng Anh</option>
+                            <option value="Tiếng Việt">Tiếng Việt</option>
+                            <option value="Vật lý">Vật lý</option>
+                            <option value="Hóa học">Hóa học</option>
+                            <option value="Sinh học">Sinh học</option>
+                            <option value="STEM">STEM</option>
+                            <option value="Tin học">Tin học</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Khu vực</label>
+                        <select id="editArea" required>
+                            <option>Ba Đình</option>
+                            <option>Cầu Giấy</option>
+                            <option>Đống Đa</option>
+                            <option>Hai Bà Trưng</option>
+                            <option>Hoàng Mai</option>
+                            <option>Long Biên</option>
+                            <option>Hà Đông</option>
+                            <option>Tây Hồ</option>
+                            <option>Thanh Xuân</option>
+                            <option>Nam Từ Liêm</option>
+                            <option>Bắc Từ Liêm</option>
+                            <option>Online</option>
+                        </select>
+                    </div>
+                </div>
 
-    <script>
-        // Dữ liệu lớp học
-        const classes = [
-            { title: 'Trợ giảng Toán lớp 6 · chương trình nâng cao', subject: 'Toán', area: 'Hà Đông', type: 'Trực tiếp', pay: '120.000–150.000đ / buổi', schedule: 'T3, T5 · 17:30', urgent: true, icon: '📐' },
-            { title: 'Hỗ trợ Tiếng Anh giao tiếp cho học sinh lớp 8', subject: 'Tiếng Anh', area: 'Đại Mỗ', type: 'Online', pay: '100.000–130.000đ / buổi', schedule: 'Cuối tuần · linh hoạt', urgent: false, icon: '🌎' },
-            { title: 'Trợ giảng STEM cuối tuần · nhóm nhỏ', subject: 'STEM', area: 'Cầu Giấy', type: 'Trực tiếp', pay: '150.000đ / buổi', schedule: 'Thứ 7 · 09:00', urgent: true, icon: '🔬' },
-            { title: 'Gia sư Toán & Lý lớp 10', subject: 'Toán', area: 'Đống Đa', type: 'Trực tiếp', pay: '180.000đ / buổi', schedule: 'T2, T4 · 18:00', urgent: false, icon: '🧮' }
-        ];
+                <div class="post-form-grid">
+                    <div class="field">
+                        <label>Hình thức</label>
+                        <select id="editType" required>
+                            <option>Trực tiếp</option>
+                            <option>Online</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Thù lao</label>
+                        <input type="text" id="editPay" required />
+                    </div>
+                </div>
 
-        // Trạng thái chấp nhận Policy
-        let hasAcceptedPolicy = localStorage.getItem('policy_accepted') === 'true';
-        let pendingTargetHash = null;
+                <div class="field">
+                    <label>Lịch học & Yêu cầu</label>
+                    <input type="text" id="editSchedule" required />
+                </div>
 
-        function render(list) {
-            const box = document.getElementById('classList');
-            box.innerHTML = '';
-            list.forEach((c, i) => {
-                box.insertAdjacentHTML('beforeend', `<article class="class-card"><div class="class-main"><span class="tag">${c.icon} &nbsp;${c.subject}${c.urgent ? ' · CẦN GẤP' : ''}</span><h3>${c.title}</h3><div class="meta"><span>📍 ${c.area}</span><span>◷ ${c.schedule}</span><span>▣ ${c.type}</span></div><div class="meta" style="margin-top:7px"><span>Liên hệ: <b class="secure">phuhuynh${i + 1}@email.com · 09•• ••• •••</b></span></div></div><div class="class-actions"><div class="salary">${c.pay}</div><button class="btn btn-primary" onclick="lockedApply()">Ứng tuyển</button><span class="locked">🔒 Cần nâng cấp gói</span></div></article>`);
-            });
-            document.getElementById('resultCount').textContent = `${list.length} lớp đang tuyển`;
-            document.getElementById('emptyState').style.display = list.length ? 'none' : 'block';
-        }
+                <div class="modal-footer-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeEditModal()">Hủy</button>
+                    <button type="submit" class="btn btn-primary" id="saveEditBtn">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        function filterClasses() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            const a = document.getElementById('areaFilter').value;
-            const t = document.getElementById('typeFilter').value;
-            const u = document.getElementById('urgentFilter').checked;
-
-            render(classes.filter(c =>
-                (!q || `${c.title} ${c.subject}`.toLowerCase().includes(q)) &&
-                (!a || c.area === a) &&
-                (!t || c.type === t) &&
-                (!u || c.urgent)
-            ));
-        }
-
-        function notify(text) {
-            const el = document.getElementById('toast');
-            el.textContent = text;
-            el.classList.add('show');
-            clearTimeout(window.toastTimer);
-            window.toastTimer = setTimeout(() => el.classList.remove('show'), 3100);
-        }
-
-        function lockedApply() {
-            notify('Tài khoản trải nghiệm chưa có lượt ứng tuyển. Xem các gói dịch vụ bên dưới.');
-            setTimeout(() => document.getElementById('plans').scrollIntoView({ behavior: 'smooth' }), 500);
-        }
-
-        function uploadCV(input) {
-            if (input.files[0]) {
-                document.getElementById('fileName').textContent = 'Đã chọn: ' + input.files[0].name + ' · Chờ kiểm duyệt';
-                notify('CV đã được tải lên trong bản demo.');
-            }
-        }
-
-        // Cập nhật hàm checkout trong demo2.html
-        function checkout(name, price) {
-            // 1. Lưu thông tin gói cước đã chọn vào localStorage
-            const planInfo = { name: name, price: price };
-            localStorage.setItem('selected_plan', JSON.stringify(planInfo));
-
-            // 2. Chuyển hướng người dùng sang trang checkout.html
-            window.location.href = 'checkout.html';
-        }
-
-        function closeCheckout() {
-            document.getElementById('checkoutModal').classList.remove('show');
-        }
-
-        function completePayment() {
-            const email = document.getElementById('emailInput').value;
-            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                notify('Vui lòng nhập email hợp lệ.');
-                return;
-            }
-            const name = document.getElementById('checkoutName').textContent;
-            closeCheckout();
-            notify(`Đơn hàng ${name} đã được mô phỏng thành công (Test mode).`);
-        }
-
-        /* --- XỬ LÝ ĐIỀU KHOẢN & MỞ TAB (POLICY LOGIC) --- */
-
-        // Kiểm tra xem đã đồng ý chưa khi bấm vào tab
-        function checkPolicyAndNavigate(event, hashTarget) {
-            if (!hasAcceptedPolicy) {
-                event.preventDefault();
-                pendingTargetHash = hashTarget;
-                openPolicyModal(true);
-            }
-        }
-
-        // Mở Modal Policy
-        function openPolicyModal(isMandatory = false) {
-            const modal = document.getElementById('policyModal');
-            const closeBtn = document.getElementById('policyCloseBtn');
-            const agreeCheck = document.getElementById('policyAgreeCheckbox');
-
-            // Nếu đã đồng ý trước đó và mở xem lại từ footer/nav -> Tick sẵn ô
-            if (hasAcceptedPolicy) {
-                agreeCheck.checked = true;
-                toggleAgreeButton(true);
-                closeBtn.style.display = 'block';
-            } else {
-                agreeCheck.checked = false;
-                toggleAgreeButton(false);
-                // Bắt buộc chấp nhận mới cho tắt
-                if (isMandatory) {
-                    closeBtn.style.display = 'none';
-                } else {
-                    closeBtn.style.display = 'block';
-                }
-            }
-
-            modal.classList.add('show');
-        }
-
-        // Đóng Modal
-        function closePolicyModal() {
-            document.getElementById('policyModal').classList.remove('show');
-        }
-
-        // Bật/Tắt nút bấm theo ô Tick
-        function toggleAgreeButton(isChecked) {
-            const btn = document.getElementById('btnAcceptPolicy');
-            btn.disabled = !isChecked;
-        }
-
-        // Nhấn nút "Đồng ý & Tiếp tục"
-        function acceptPolicyAndContinue() {
-            hasAcceptedPolicy = true;
-            localStorage.setItem('policy_accepted', 'true');
-            closePolicyModal();
-            notify('Cảm ơn bạn đã đồng ý với Điều khoản dịch vụ.');
-
-            // Nếu đang chờ chuyển tới tab nào đó thì scroll tới
-            if (pendingTargetHash) {
-                const targetEl = document.querySelector(pendingTargetHash);
-                if (targetEl) {
-                    targetEl.scrollIntoView({ behavior: 'smooth' });
-                }
-                pendingTargetHash = null;
-            }
-        }
-
-        // Chuyển Tab lọc nội dung Policy
-        function switchPolicyTab(category, tabBtn) {
-            document.querySelectorAll('.policy-tab').forEach(b => b.classList.remove('active'));
-            tabBtn.classList.add('active');
-
-            const sections = document.querySelectorAll('.policy-section');
-            sections.forEach(sec => {
-                if (category === 'all' || sec.getAttribute('data-cat') === category) {
-                    sec.style.display = 'block';
-                } else {
-                    sec.style.display = 'none';
-                }
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            render(classes);
-
-            // Nếu người dùng chưa từng nhấn đồng ý -> Bật Popup ngay lập tức
-            if (!hasAcceptedPolicy) {
-                setTimeout(() => {
-                    openPolicyModal(true);
-                }, 300);
-            }
-        });
-
-        // Dữ liệu người dùng lưu tạm thời (hoặc lấy từ localStorage)
-        let currentUser = JSON.parse(localStorage.getItem('user_session')) || null;
-
-        // Khởi chạy khi tải trang
-        document.addEventListener('DOMContentLoaded', () => {
-            updateUserUI();
-        });
-
-        // Mở & Đóng Modal
-        function openAuthModal(tab = 'login') {
-            switchAuthTab(tab);
-            document.getElementById('authModal').classList.add('show');
-        }
-
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.remove('show');
-        }
-
-        function switchAuthTab(tab) {
-            const isLogin = tab === 'login';
-            document.getElementById('tabLogin').classList.toggle('active', isLogin);
-            document.getElementById('tabRegister').classList.toggle('active', !isLogin);
-            document.getElementById('loginForm').style.display = isLogin ? 'block' : 'none';
-            document.getElementById('registerForm').style.display = !isLogin ? 'block' : 'none';
-        }
-
-        // Đăng xuất
-        function logout() {
-            localStorage.removeItem('user_session');
-            currentUser = null;
-            notify('Đã đăng xuất tài khoản.');
-            updateUserUI();
-        }
-
-        // Cập nhật giao diện theo Role (Phụ huynh vs Gia sư)
-        function updateUserUI() {
-            const navRight = document.getElementById('navRight');
-            const profileSection = document.getElementById('profile');
-            const plansTutor = document.querySelector('.plans-group:first-child');
-            const plansParent = document.querySelector('.plans-group:last-child');
-
-            if (currentUser) {
-                // Nav khi đã đăng nhập
-                const roleName = currentUser.role === 'parent' ? 'Phụ huynh' : 'Gia sư/Trợ giảng';
-                navRight.innerHTML = `
-            <span style="font-size:12px; font-weight:bold;">${currentUser.name} (${roleName})</span>
-            <div class="avatar">${currentUser.name.charAt(0).toUpperCase()}</div>
-            <button class="btn btn-outline" style="padding:6px 12px; font-size:12px;" onclick="logout()">Đăng xuất</button>
-        `;
-
-                if (currentUser.role === 'parent') {
-                    // Giao diện cho Phụ huynh
-                    if (profileSection) profileSection.style.display = 'none'; // Ẩn phần tạo hồ sơ gia sư
-                    if (plansTutor) plansTutor.style.display = 'none';       // Ẩn gói cước gia sư
-                    if (plansParent) plansParent.style.display = 'block';     // Hiện gói cước phụ huynh
-                } else {
-                    // Giao diện cho Gia sư / Trợ giảng
-                    if (profileSection) profileSection.style.display = 'block'; // Hiện phần hồ sơ gia sư
-                    if (plansTutor) plansTutor.style.display = 'block';
-                    if (plansParent) plansParent.style.display = 'none';      // Ẩn gói phụ huynh
-                }
-            } else {
-                // Chưa đăng nhập: Hiện mặc định
-                navRight.innerHTML = `
-            <button class="btn btn-light" onclick="openAuthModal('login')">Đăng nhập</button>
-            <button class="btn btn-primary" onclick="openAuthModal('register')">Đăng ký</button>
-        `;
-                if (profileSection) profileSection.style.display = 'block';
-                if (plansTutor) plansTutor.style.display = 'block';
-                if (plansParent) plansParent.style.display = 'block';
-            }
-        }
-
-        // Xử lý Đăng ký
-        function handleRegister(e) {
-            e.preventDefault();
-            const name = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim().toLowerCase();
-            const pass = document.getElementById('regPass').value;
-            const role = document.getElementById('regRole').value;
-
-            // Lấy danh sách tài khoản đã đăng ký từ localStorage
-            let users = JSON.parse(localStorage.getItem('registered_users')) || [];
-
-            // Kiểm tra xem email đã tồn tại chưa
-            const isExist = users.some(u => u.email === email);
-            if (isExist) {
-                notify('Email này đã được đăng ký! Vui lòng chuyển sang Đăng nhập.');
-                switchAuthTab('login');
-                document.getElementById('loginEmail').value = email;
-                return;
-            }
-
-            // Lưu tài khoản mới
-            const newUser = { name, email, pass, role };
-            users.push(newUser);
-            localStorage.setItem('registered_users', JSON.stringify(users));
-
-            // Đăng nhập luôn cho người dùng sau khi đăng ký
-            const sessionUser = { name, email, role };
-            localStorage.setItem('user_session', JSON.stringify(sessionUser));
-            currentUser = sessionUser;
-
-            closeAuthModal();
-            notify(`Đăng ký thành công! Chào mừng ${name}.`);
-            updateUserUI();
-        }
-
-        // Xử lý Đăng nhập
-        function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-            const pass = document.getElementById('loginPass').value;
-
-            // Lấy danh sách tài khoản đã đăng ký từ localStorage
-            let users = JSON.parse(localStorage.getItem('registered_users')) || [];
-
-            // Tìm tài khoản theo email
-            const user = users.find(u => u.email === email);
-
-            // Trường hợp 1: Chưa đăng ký tài khoản
-            if (!user) {
-                notify('Tài khoản chưa tồn tại! Vui lòng đăng ký tài khoản mới.');
-                switchAuthTab('register');
-                document.getElementById('regEmail').value = email; // Tự động điền email sang form đăng ký
-                return;
-            }
-
-            // Trường hợp 2: Sai mật khẩu
-            if (user.pass !== pass) {
-                notify('Mật khẩu không chính xác. Vui lòng thử lại!');
-                return;
-            }
-
-            // Trường hợp 3: Đăng nhập thành công
-            const sessionUser = { name: user.name, email: user.email, role: user.role };
-            localStorage.setItem('user_session', JSON.stringify(sessionUser));
-            currentUser = sessionUser;
-
-            closeAuthModal();
-            notify(`Đăng nhập thành công! Chào mừng ${user.name}.`);
-            updateUserUI();
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            render(classes);
-
-            // Kiểm tra xem có phải vừa hoàn tất thanh toán từ checkout.html quay về không
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('payment') === 'success') {
-                notify('🎉 Kích hoạt gói dịch vụ thành công!');
-                // Xóa param trên URL để không bị lặp lại khi F5
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-        });
-
-        // Khởi chạy ban đầu
-        render(classes);
-    </script>
-
-    <!-- Modal Đăng nhập / Đăng ký -->
+    <!-- Modal Auth -->
     <div class="modal-backdrop" id="authModal" onclick="if(event.target===this)closeAuthModal()">
         <div class="modal">
             <button class="close" onclick="closeAuthModal()">×</button>
@@ -779,7 +570,6 @@
                 <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Đăng ký</button>
             </div>
 
-            <!-- Form Đăng nhập -->
             <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="field">
                     <label>Email</label>
@@ -789,10 +579,9 @@
                     <label>Mật khẩu</label>
                     <input type="password" id="loginPass" placeholder="••••••••" required />
                 </div>
-                <button type="submit" class="btn btn-primary" style="width:100%">Đăng nhập</button>
+                <button type="submit" class="btn btn-primary btn-full">Đăng nhập</button>
             </form>
 
-            <!-- Form Đăng ký -->
             <form id="registerForm" onsubmit="handleRegister(event)" style="display:none;">
                 <div class="field">
                     <label>Họ và tên</label>
@@ -813,10 +602,578 @@
                         <option value="parent">Phụ huynh / Học sinh</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width:100%">Tạo tài khoản</button>
+                <button type="submit" class="btn btn-primary btn-full">Tạo tài khoản</button>
             </form>
         </div>
     </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const initialClasses = [
+            { id: 1, ownerEmail: 'admin@email.com', title: 'Trợ giảng Toán lớp 6 · chương trình nâng cao', subject: 'Toán', grade: 'Lớp 6', levels: ['Nâng cao'], area: 'Hà Đông', type: 'Trực tiếp', pay: '120.000–150.000đ / buổi', schedule: 'T3, T5 · 17:30', urgent: true, icon: '📐', editCount: 0 },
+            { id: 2, ownerEmail: 'admin@email.com', title: 'Hỗ trợ Tiếng Anh giao tiếp cho học sinh lớp 8', subject: 'Tiếng Anh', grade: 'Lớp 8', levels: ['Cơ bản'], area: 'Đại Mỗ', type: 'Online', pay: '100.000–130.000đ / buổi', schedule: 'Cuối tuần · linh hoạt', urgent: false, icon: '🌎', editCount: 0 },
+            { id: 3, ownerEmail: 'admin@email.com', title: 'Trợ giảng STEM cuối tuần · nhóm nhỏ', subject: 'STEM', grade: 'Lớp 9', levels: ['Cơ bản', 'Nâng cao'], area: 'Cầu Giấy', type: 'Trực tiếp', pay: '150.000đ / buổi', schedule: 'Thứ 7 · 09:00', urgent: true, icon: '🔬', editCount: 0 },
+            { id: 4, ownerEmail: 'admin@email.com', title: 'Gia sư Toán & Lý lớp 10', subject: 'Toán', grade: 'Lớp 10', levels: ['Cơ bản'], area: 'Đống Đa', type: 'Trực tiếp', pay: '180.000đ / buổi', schedule: 'T2, T4 · 18:00', urgent: false, icon: '🧮', editCount: 0 }
+        ];
+
+        let storedClasses = JSON.parse(localStorage.getItem('posted_classes'));
+        let currentUser = JSON.parse(localStorage.getItem('user_session')) || null;
+        if (!storedClasses || storedClasses.length === 0) {
+            localStorage.setItem('posted_classes', JSON.stringify(initialClasses));
+            storedClasses = initialClasses;
+        }
+
+        let classes = storedClasses;
+
+        function render(list) {
+            const box = document.getElementById('classList');
+            box.innerHTML = '';
+
+            list.forEach((c) => {
+                const isAdmin = currentUser && (currentUser.role === 'admin' || currentUser.email === 'anomalousblu@gmail.com');
+                const isOwner = currentUser && currentUser.email === c.ownerEmail;
+
+                const canEdit = isAdmin || isOwner;
+                const canDelete = isAdmin || isOwner;
+
+                const editCountText = isOwner && !isAdmin ? ` (Đã sửa ${c.editCount || 0}/3 lần)` : '';
+
+                const actionBtnsHtml = `
+                    <div class="class-action-btns">
+                        ${canEdit ? `<button class="btn btn-edit-class" onclick="openEditModal(${c.id}, event)">✏️ Chỉnh sửa${editCountText}</button>` : ''}
+                        ${canDelete ? `<button class="btn btn-delete-class" onclick="deleteClass(${c.id}, event)">🗑 Xóa</button>` : ''}
+                    </div>
+                `;
+
+                const levelBadges = c.levels && c.levels.length > 0 ? ` · ${c.levels.join(', ')}` : '';
+                const ownerBadge = isOwner ? `<span class="tag-owner">Lớp của bạn</span>` : '';
+
+                box.insertAdjacentHTML('beforeend', `
+            <article class="class-card ${canEdit ? 'clickable' : ''}" onclick="handleCardClick(${c.id}, event)">
+                <div class="class-main">
+                    <span class="tag">${c.icon} &nbsp;${c.subject}${levelBadges}${c.urgent ? ' · CẦN GẤP' : ''}</span>${ownerBadge}
+                    <h3>${c.title}</h3>
+                    <div class="meta">
+                        <span>📍 ${c.area}</span>
+                        <span>◷ ${c.schedule}</span>
+                        <span>▣ ${c.type}</span>
+                    </div>
+                    <div class="meta meta-contact">
+                        <span>Liên hệ: <b class="secure">${c.ownerEmail || 'phuhuynh@email.com'}</b></span>
+                    </div>
+                </div>
+                <div class="class-actions">
+                    <div class="salary">${c.pay}</div>
+                    <button class="btn btn-primary" onclick="lockedApply(event)">Ứng tuyển</button>
+                    <span class="locked">🔒 Cần nâng cấp gói</span>
+                    ${actionBtnsHtml}
+                </div>
+            </article>
+        `);
+            });
+
+            document.getElementById('resultCount').textContent = `${list.length} lớp đang tuyển`;
+            document.getElementById('emptyState').style.display = list.length ? 'none' : 'block';
+        }
+
+        function handleCardClick(classId, event) {
+            if (event.target.tagName === 'BUTTON' || event.target.closest('button')) return;
+            
+            const c = classes.find(item => item.id === classId);
+            const isAdmin = currentUser && (currentUser.role === 'admin' || currentUser.email === 'anomalousblu@gmail.com');
+            const isOwner = currentUser && currentUser.email === c.ownerEmail;
+
+            if (canEditClass(c, isAdmin, isOwner)) {
+                openEditModal(classId, event);
+            }
+        }
+
+        function canEditClass(c, isAdmin, isOwner) {
+            if (isAdmin) return true;
+            if (isOwner) {
+                return (c.editCount || 0) < 3;
+            }
+            return false;
+        }
+
+        function openEditModal(classId, event) {
+            if (event) event.stopPropagation();
+            const c = classes.find(item => item.id === classId);
+            if (!c) return;
+
+            const isAdmin = currentUser && (currentUser.role === 'admin' || currentUser.email === 'anomalousblu@gmail.com');
+            const isOwner = currentUser && currentUser.email === c.ownerEmail;
+
+            if (!isAdmin && isOwner && (c.editCount || 0) >= 3) {
+                notify('Bạn đã dùng hết 3 lần chỉnh sửa thông tin cho lớp học này!');
+                return;
+            }
+
+            document.getElementById('editClassId').value = c.id;
+            document.getElementById('editTitle').value = c.title;
+            document.getElementById('editSubject').value = c.subject;
+            document.getElementById('editArea').value = c.area;
+            document.getElementById('editType').value = c.type;
+            document.getElementById('editPay').value = c.pay;
+            document.getElementById('editSchedule').value = c.schedule;
+
+            const noticeEl = document.getElementById('editLimitNotice');
+            if (isAdmin) {
+                noticeEl.textContent = '🔑 Quền Admin: Bạn có thể sửa nội dung không giới hạn.';
+            } else {
+                noticeEl.textContent = `Vui lòng kiểm tra kỹ. Số lần đã sửa: ${c.editCount || 0}/3 lần.`;
+            }
+
+            document.getElementById('editClassModal').classList.add('show');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editClassModal').classList.remove('show');
+        }
+
+        function handleSaveEditClass(e) {
+            e.preventDefault();
+            const id = Number(document.getElementById('editClassId').value);
+            const cIndex = classes.findIndex(item => item.id === id);
+            if (cIndex === -1) return;
+
+            const isAdmin = currentUser && (currentUser.role === 'admin' || currentUser.email === 'anomalousblu@gmail.com');
+
+            classes[cIndex].title = document.getElementById('editTitle').value;
+            classes[cIndex].subject = document.getElementById('editSubject').value;
+            classes[cIndex].area = document.getElementById('editArea').value;
+            classes[cIndex].type = document.getElementById('editType').value;
+            classes[cIndex].pay = document.getElementById('editPay').value;
+            classes[cIndex].schedule = document.getElementById('editSchedule').value;
+
+            if (!isAdmin) {
+                classes[cIndex].editCount = (classes[cIndex].editCount || 0) + 1;
+            }
+
+            localStorage.setItem('posted_classes', JSON.stringify(classes));
+            render(classes);
+            closeEditModal();
+            notify('Cập nhật thông tin lớp học thành công!');
+        }
+
+        function filterClasses() {
+            const s = document.getElementById('subjectFilter').value;
+            const a = document.getElementById('areaFilter').value;
+            const t = document.getElementById('typeFilter').value;
+            const u = document.getElementById('urgentFilter').checked;
+            const basic = document.getElementById('filterBasic').checked;
+            const advanced = document.getElementById('filterAdvanced').checked;
+
+            render(classes.filter(c => {
+                const matchSubject = !s || c.subject === s;
+                const matchArea = !a || c.area === a;
+                const matchType = !t || c.type === t;
+                const matchUrgent = !u || c.urgent;
+
+                let matchLevel = true;
+                if (basic || advanced) {
+                    const cLevels = c.levels || [];
+                    matchLevel = (basic && cLevels.includes('Cơ bản')) || (advanced && cLevels.includes('Nâng cao'));
+                }
+
+                return matchSubject && matchArea && matchType && matchUrgent && matchLevel;
+            }));
+        }
+
+        (function initAdminAccount() {
+            let users = JSON.parse(localStorage.getItem('registered_users')) || [];
+            const adminEmail = 'anomalousblu@gmail.com';
+            const adminIndex = users.findIndex(u => u.email === adminEmail);
+
+            const adminData = {
+                name: 'tbm đây',
+                email: adminEmail,
+                pass: 'anomalousblu123',
+                role: 'admin',
+                activePlan: 'Admin',
+                postCredits: 999
+            };
+
+            if (adminIndex === -1) {
+                users.push(adminData);
+            } else {
+                users[adminIndex] = { ...users[adminIndex], ...adminData };
+            }
+
+            localStorage.setItem('registered_users', JSON.stringify(users));
+        })();
+
+        let hasAcceptedPolicy = localStorage.getItem('policy_accepted') === 'true';
+        let pendingTargetHash = null;
+
+        function notify(text) {
+            const el = document.getElementById('toast');
+            el.textContent = text;
+            el.classList.add('show');
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => el.classList.remove('show'), 3100);
+        }
+
+        function lockedApply(e) {
+            if (e) e.stopPropagation();
+            notify('Tài khoản trải nghiệm chưa có lượt ứng tuyển. Xem các gói dịch vụ bên dưới.');
+            setTimeout(() => document.getElementById('plans').scrollIntoView({ behavior: 'smooth' }), 500);
+        }
+
+        function uploadCV(input) {
+            if (input.files[0]) {
+                document.getElementById('fileName').textContent = 'Đã chọn: ' + input.files[0].name + ' · Chờ kiểm duyệt';
+                notify('CV đã được tải lên trong bản demo.');
+            }
+        }
+
+        function checkout(name, price) {
+            const planInfo = { name: name, price: price };
+            localStorage.setItem('selected_plan', JSON.stringify(planInfo));
+            window.location.href = 'checkout.html';
+        }
+
+        function checkPolicyAndNavigate(event, hashTarget) {
+            if (!hasAcceptedPolicy) {
+                event.preventDefault();
+                pendingTargetHash = hashTarget;
+                openPolicyModal(true);
+            }
+        }
+
+        function openPolicyModal(isMandatory = false) {
+            const modal = document.getElementById('policyModal');
+            const closeBtn = document.getElementById('policyCloseBtn');
+            const agreeCheck = document.getElementById('policyAgreeCheckbox');
+
+            if (hasAcceptedPolicy) {
+                agreeCheck.checked = true;
+                toggleAgreeButton(true);
+                closeBtn.style.display = 'block';
+            } else {
+                agreeCheck.checked = false;
+                toggleAgreeButton(false);
+                closeBtn.style.display = isMandatory ? 'none' : 'block';
+            }
+
+            modal.classList.add('show');
+        }
+
+        function closePolicyModal() {
+            document.getElementById('policyModal').classList.remove('show');
+        }
+
+        function toggleAgreeButton(isChecked) {
+            const btn = document.getElementById('btnAcceptPolicy');
+            btn.disabled = !isChecked;
+        }
+
+        function acceptPolicyAndContinue() {
+            hasAcceptedPolicy = true;
+            localStorage.setItem('policy_accepted', 'true');
+            closePolicyModal();
+            notify('Cảm ơn bạn đã đồng ý với Điều khoản dịch vụ.');
+
+            if (pendingTargetHash) {
+                const targetEl = document.querySelector(pendingTargetHash);
+                if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
+                pendingTargetHash = null;
+            }
+        }
+
+        function switchPolicyTab(category, tabBtn) {
+            document.querySelectorAll('.policy-tab').forEach(b => b.classList.remove('active'));
+            tabBtn.classList.add('active');
+
+            const sections = document.querySelectorAll('.policy-section');
+            sections.forEach(sec => {
+                if (category === 'all' || sec.getAttribute('data-cat') === category) {
+                    sec.style.display = 'block';
+                } else {
+                    sec.style.display = 'none';
+                }
+            });
+        }
+
+        function openAuthModal(tab = 'login') {
+            switchAuthTab(tab);
+            document.getElementById('authModal').classList.add('show');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.remove('show');
+        }
+
+        function switchAuthTab(tab) {
+            const isLogin = tab === 'login';
+            document.getElementById('tabLogin').classList.toggle('active', isLogin);
+            document.getElementById('tabRegister').classList.toggle('active', !isLogin);
+            document.getElementById('loginForm').style.display = isLogin ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = !isLogin ? 'block' : 'none';
+        }
+
+        function logout() {
+            localStorage.removeItem('user_session');
+            currentUser = null;
+            notify('Đã đăng xuất tài khoản.');
+            updateUserUI();
+            render(classes);
+        }
+
+        function updateUserUI() {
+            const navRight = document.getElementById('navRight');
+            const profileSection = document.getElementById('profile');
+            const parentPostSection = document.getElementById('parentPostSection');
+            const parentLockedNotice = document.getElementById('parentLockedNotice');
+            const parentPostForm = document.getElementById('parentPostForm');
+            const plansTutor = document.querySelector('.plans-group:first-child');
+            const plansParent = document.querySelector('.plans-group:last-child');
+
+            if (currentUser) {
+                let roleName = 'Gia sư/Trợ giảng';
+                if (currentUser.role === 'admin') roleName = 'Admin';
+                else if (currentUser.role === 'parent') roleName = 'Phụ huynh';
+
+                const planBadge = currentUser.activePlan
+                    ? `<span class="badge badge-active-plan">Gói: ${currentUser.activePlan}</span>`
+                    : `<span class="badge badge-no-plan">Chưa mua gói</span>`;
+
+                const postCredits = currentUser.postCredits || 0;
+                const parentCreditsBadge = currentUser.role === 'parent'
+                    ? `<span class="badge badge-post-credits">Gói đăng lớp: <b>${postCredits}</b></span>`
+                    : '';
+
+                const creditsBadge = (currentUser.role !== 'parent' && currentUser.role !== 'admin')
+                    ? `<span class="badge badge-apply-credits">Lượt ứng tuyển: <b>${currentUser.applyCredits || 0}</b></span>`
+                    : '';
+
+                const isAdminClass = currentUser.role === 'admin' ? 'admin' : '';
+                const avatarClass = currentUser.role === 'admin' ? 'avatar avatar-admin' : 'avatar';
+
+                navRight.innerHTML = `
+        <div class="nav-user-info">
+            <span class="nav-user-name ${isAdminClass}">
+                ${currentUser.name} (${roleName})
+            </span>
+            <div class="nav-badges">
+                ${planBadge}
+                ${parentCreditsBadge}
+                ${creditsBadge}
+            </div>
+        </div>
+        <div class="${avatarClass}">
+            ${currentUser.name.charAt(0).toUpperCase()}
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="logout()">Đăng xuất</button>
+    `;
+
+                if (currentUser.role === 'admin') {
+                    if (profileSection) profileSection.style.display = 'block';
+                    if (parentPostSection) parentPostSection.style.display = 'block';
+                    if (parentLockedNotice) parentLockedNotice.style.display = 'none';
+                    if (parentPostForm) parentPostForm.style.display = 'block';
+                    if (plansTutor) plansTutor.style.display = 'block';
+                    if (plansParent) plansParent.style.display = 'block';
+                } else if (currentUser.role === 'parent') {
+                    if (profileSection) profileSection.style.display = 'none';
+                    if (plansTutor) plansTutor.style.display = 'none';
+                    if (plansParent) plansParent.style.display = 'block';
+
+                    if (parentPostSection) parentPostSection.style.display = 'block';
+                    if (postCredits > 0) {
+                        if (parentLockedNotice) parentLockedNotice.style.display = 'none';
+                        if (parentPostForm) parentPostForm.style.display = 'block';
+                        document.getElementById('postQuotaBadge').textContent = `✓ Còn ${postCredits} lượt đăng lớp`;
+                    } else {
+                        if (parentLockedNotice) parentLockedNotice.style.display = 'block';
+                        if (parentPostForm) parentPostForm.style.display = 'none';
+                    }
+                } else {
+                    if (profileSection) profileSection.style.display = 'block';
+                    if (parentPostSection) parentPostSection.style.display = 'none';
+                    if (plansTutor) plansTutor.style.display = 'block';
+                    if (plansParent) plansParent.style.display = 'none';
+                }
+            } else {
+                navRight.innerHTML = `
+        <button class="btn btn-light" onclick="openAuthModal('login')">Đăng nhập</button>
+        <button class="btn btn-primary" onclick="openAuthModal('register')">Đăng ký</button>
+    `;
+                if (profileSection) profileSection.style.display = 'block';
+                if (parentPostSection) parentPostSection.style.display = 'none';
+                if (plansTutor) plansTutor.style.display = 'block';
+                if (plansParent) plansParent.style.display = 'block';
+            }
+        }
+
+        function handlePostClass(e) {
+            e.preventDefault();
+            const isAdmin = currentUser && currentUser.role === 'admin';
+
+            if (!isAdmin && (!currentUser || (currentUser.postCredits || 0) <= 0)) {
+                notify('Bạn không còn lượt đăng lớp! Vui lòng mua thêm gói Kết Nối Nhanh.');
+                return;
+            }
+
+            const subject = document.getElementById('postSubject').value;
+            const grade = document.getElementById('postGrade').value;
+            const area = document.getElementById('postArea').value;
+            const type = document.getElementById('postType').value;
+            const pay = document.getElementById('postPay').value;
+            const schedule = document.getElementById('postSchedule').value;
+
+            const levels = [];
+            if (document.getElementById('postLevelBasic').checked) levels.push('Cơ bản');
+            if (document.getElementById('postLevelAdvanced').checked) levels.push('Nâng cao');
+
+            const levelText = levels.length > 0 ? ` (${levels.join(', ')})` : '';
+
+            const newClass = {
+                id: Date.now(),
+                ownerEmail: currentUser ? currentUser.email : 'guest@gmail.com',
+                title: `Tìm gia sư ${subject} lớp ${grade}${levelText}`,
+                subject: subject,
+                grade: grade,
+                levels: levels,
+                area: area,
+                type: type,
+                pay: pay,
+                schedule: schedule,
+                urgent: true,
+                icon: '📌',
+                editCount: 0
+            };
+
+            classes.unshift(newClass);
+            localStorage.setItem('posted_classes', JSON.stringify(classes));
+
+            if (!isAdmin) {
+                currentUser.postCredits = (currentUser.postCredits || 1) - 1;
+                localStorage.setItem('user_session', JSON.stringify(currentUser));
+
+                let users = JSON.parse(localStorage.getItem('registered_users')) || [];
+                const uIdx = users.findIndex(u => u.email === currentUser.email);
+                if (uIdx !== -1) {
+                    users[uIdx].postCredits = currentUser.postCredits;
+                    localStorage.setItem('registered_users', JSON.stringify(users));
+                }
+            }
+
+            render(classes);
+            updateUserUI();
+
+            notify('Đăng lớp thành công! Bạn còn 3 lần chỉnh sửa cho bài đăng này.');
+            e.target.reset();
+        }
+
+        function deleteClass(classId, event) {
+            if (event) event.stopPropagation();
+            if (confirm('Bạn có chắc chắn muốn xóa bài đăng lớp học này không?')) {
+                classes = classes.filter(c => c.id !== classId);
+                localStorage.setItem('posted_classes', JSON.stringify(classes));
+                render(classes);
+                notify('Đã xóa bài đăng lớp học thành công.');
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const pass = document.getElementById('regPass').value;
+            const role = document.getElementById('regRole').value;
+
+            let users = JSON.parse(localStorage.getItem('registered_users')) || [];
+
+            if (users.some(u => u.email === email)) {
+                notify('Email này đã được đăng ký! Vui lòng chuyển sang Đăng nhập.');
+                switchAuthTab('login');
+                document.getElementById('loginEmail').value = email;
+                return;
+            }
+
+            const newUser = {
+                name,
+                email,
+                pass,
+                role,
+                activePlan: 'Trải Nghiệm',
+                applyCredits: 0,
+                postCredits: 0
+            };
+            users.push(newUser);
+            localStorage.setItem('registered_users', JSON.stringify(users));
+
+            const sessionUser = {
+                name: newUser.name,
+                email: newUser.email,
+                role: newUser.role,
+                activePlan: newUser.activePlan,
+                applyCredits: newUser.applyCredits,
+                postCredits: newUser.postCredits
+            };
+            localStorage.setItem('user_session', JSON.stringify(sessionUser));
+            currentUser = sessionUser;
+
+            closeAuthModal();
+            notify(`Đăng ký thành công! Chào mừng ${name}.`);
+            updateUserUI();
+            render(classes);
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const pass = document.getElementById('loginPass').value;
+
+            let users = JSON.parse(localStorage.getItem('registered_users')) || [];
+            const user = users.find(u => u.email === email);
+
+            if (!user) {
+                notify('Tài khoản chưa tồn tại! Vui lòng đăng ký tài khoản mới.');
+                switchAuthTab('register');
+                document.getElementById('regEmail').value = email;
+                return;
+            }
+
+            if (user.pass !== pass) {
+                notify('Mật khẩu không chính xác. Vui lòng thử lại!');
+                return;
+            }
+
+            const sessionUser = {
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                activePlan: user.activePlan || 'Trải Nghiệm',
+                applyCredits: user.applyCredits || 0,
+                postCredits: user.postCredits || 0
+            };
+            localStorage.setItem('user_session', JSON.stringify(sessionUser));
+            currentUser = sessionUser;
+
+            closeAuthModal();
+            notify(`Đăng nhập thành công! Chào mừng ${user.name}.`);
+            updateUserUI();
+            render(classes);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUserUI();
+            render(classes);
+
+            if (!hasAcceptedPolicy) {
+                setTimeout(() => openPolicyModal(true), 300);
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('payment') === 'success') {
+                notify('🎉 Kích hoạt gói dịch vụ thành công!');
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
+    </script>
 </body>
 
 </html>

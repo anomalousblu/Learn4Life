@@ -46,7 +46,8 @@
             <div class="checkout-header">
                 <span class="mode">● TEST MODE · MÔ PHỎNG</span>
                 <h2 style="margin-top:8px;">Xác nhận gói dịch vụ</h2>
-                <p style="color:var(--muted); font-size:13px;">Đây là giao dịch thử nghiệm. Không nhập dữ liệu thật và không phát sinh thanh toán.</p>
+                <p style="color:var(--muted); font-size:13px;">Đây là giao dịch thử nghiệm. Không nhập dữ liệu thật và
+                    không phát sinh thanh toán.</p>
             </div>
 
             <!-- Tóm tắt gói cước chọn từ trang trước -->
@@ -77,20 +78,25 @@
                 </div>
 
                 <!-- 2 ô Checkbox xác nhận -->
-                <div class="checkout-agreements" style="margin: 18px 0; display: flex; flex-direction: column; gap: 10px;">
-                    <label class="check-item" style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                <div class="checkout-agreements"
+                    style="margin: 18px 0; display: flex; flex-direction: column; gap: 10px;">
+                    <label class="check-item"
+                        style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
                         <input type="checkbox" id="agreeTerms" onchange="validateCheckoutForm()" />
-                        <span>Tôi đồng ý với <a href="javascript:void(0)" onclick="openPolicyModal()" style="color: var(--green); text-decoration: underline;">Điều khoản dịch vụ</a></span>
+                        <span>Tôi đồng ý với <a href="javascript:void(0)" onclick="openPolicyModal()"
+                                style="color: var(--green); text-decoration: underline;">Điều khoản dịch vụ</a></span>
                     </label>
 
-                    <label class="check-item" style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                    <label class="check-item"
+                        style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
                         <input type="checkbox" id="agreePayment" onchange="validateCheckoutForm()" />
                         <span>Xác nhận thông tin thanh toán & gói dịch vụ đã chọn</span>
                     </label>
                 </div>
 
                 <!-- Nút thanh toán (Mặc định bị disable) -->
-                <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%; margin-top: 10px;" disabled>
+                <button type="submit" id="submitBtn" class="btn btn-primary" style="width: 100%; margin-top: 10px;"
+                    disabled>
                     Xác nhận thanh toán &nbsp;→
                 </button>
 
@@ -108,16 +114,21 @@
                 <div class="policy-header">
                     <span class="mode">📜 ĐIỀU KHOẢN & MIỄN TRỪ TRÁCH NHIỆM</span>
                     <h2>Chính sách & Quy định Sử dụng</h2>
-                    <p class="policy-subtitle">Cập nhật lần cuối: 31/10/2026 · Vui lòng đọc kỹ trước khi bắt đầu trải nghiệm</p>
+                    <p class="policy-subtitle">Cập nhật lần cuối: 31/10/2026 · Vui lòng đọc kỹ trước khi bắt đầu trải
+                        nghiệm</p>
                 </div>
 
                 <!-- Tab Filter Policy -->
                 <div class="policy-tabs">
-                    <button type="button" class="policy-tab active" onclick="switchPolicyTab('all', this)">Tất cả</button>
-                    <button type="button" class="policy-tab" onclick="switchPolicyTab('ta', this)">Gia sư / Trợ giảng</button>
-                    <button type="button" class="policy-tab" onclick="switchPolicyTab('parent', this)">Phụ huynh</button>
+                    <button type="button" class="policy-tab active" onclick="switchPolicyTab('all', this)">Tất
+                        cả</button>
+                    <button type="button" class="policy-tab" onclick="switchPolicyTab('ta', this)">Gia sư / Trợ
+                        giảng</button>
+                    <button type="button" class="policy-tab" onclick="switchPolicyTab('parent', this)">Phụ
+                        huynh</button>
                     <button type="button" class="policy-tab" onclick="switchPolicyTab('privacy', this)">Bảo mật</button>
-                    <button type="button" class="policy-tab" onclick="switchPolicyTab('refund', this)">Hoàn tiền</button>
+                    <button type="button" class="policy-tab" onclick="switchPolicyTab('refund', this)">Hoàn
+                        tiền</button>
                 </div>
 
                 <div class="policy-content" id="policyContent">
@@ -130,13 +141,18 @@
                             <div class="policy-card-body">
                                 <h4>Quy trình duyệt hồ sơ & cấp nhãn Verified</h4>
                                 <ul>
-                                    <li><b>Tải hồ sơ:</b> Bạn cần tải CV bản chuẩn (PDF/DOC, tối đa 10MB) lên hệ thống.</li>
-                                    <li><b>Duyệt nhãn uy tín:</b> Ban quản trị kiểm tra Thẻ sinh viên hoặc CCCD trực tuyến. Đạt yêu cầu và dùng gói Khởi Động trở lên sẽ có nhãn <b>✓ Verified</b>.</li>
-                                    <li><b>Bảo mật giấy tờ:</b> Ảnh xác thực sẽ được xóa hoàn toàn khỏi hệ thống ngay sau khi chấm điểm/kiểm duyệt hoàn tất.</li>
+                                    <li><b>Tải hồ sơ:</b> Bạn cần tải CV bản chuẩn (PDF/DOC, tối đa 10MB) lên hệ thống.
+                                    </li>
+                                    <li><b>Duyệt nhãn uy tín:</b> Ban quản trị kiểm tra Thẻ sinh viên hoặc CCCD trực
+                                        tuyến. Đạt yêu cầu và dùng gói Khởi Động trở lên sẽ có nhãn <b>✓ Verified</b>.
+                                    </li>
+                                    <li><b>Bảo mật giấy tờ:</b> Ảnh xác thực sẽ được xóa hoàn toàn khỏi hệ thống ngay
+                                        sau khi chấm điểm/kiểm duyệt hoàn tất.</li>
                                 </ul>
 
                                 <h4>Chính sách hoàn trả lượt ứng tuyển (Credit Return)</h4>
-                                <p>Hệ thống sẽ hoàn lại <b>100% lượt ứng tuyển</b> vào tài khoản trong vòng 48 giờ nếu gặp trường hợp:</p>
+                                <p>Hệ thống sẽ hoàn lại <b>100% lượt ứng tuyển</b> vào tài khoản trong vòng 48 giờ nếu
+                                    gặp trường hợp:</p>
                                 <ul>
                                     <li>Lớp học bị hủy hoặc thông tin lớp sai lệch (môn học, địa điểm, lịch học).</li>
                                     <li>Phụ huynh hủy bài đăng do thay đổi kế hoạch gia đình.</li>
@@ -145,8 +161,10 @@
 
                                 <h4>Bộ Toolkit & Tính năng Đẩy Top CV</h4>
                                 <ul>
-                                    <li><b>Bộ Toolkit Trợ giảng:</b> Gửi qua email sau khi kích hoạt thành công gói Bứt Phá.</li>
-                                    <li><b>Đẩy Top CV:</b> Ưu tiên hiển thị trên danh sách đề xuất trong vòng 14 ngày.</li>
+                                    <li><b>Bộ Toolkit Trợ giảng:</b> Gửi qua email sau khi kích hoạt thành công gói Bứt
+                                        Phá.</li>
+                                    <li><b>Đẩy Top CV:</b> Ưu tiên hiển thị trên danh sách đề xuất trong vòng 14 ngày.
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -161,13 +179,18 @@
                             <div class="policy-card-body">
                                 <h4>Thời gian giao nhận dịch vụ Fast-Match</h4>
                                 <ul>
-                                    <li>Sau khi đăng tuyển, hệ thống gửi <b>3–5 hồ sơ Trợ giảng phù hợp</b> trong vòng 24 giờ.</li>
+                                    <li>Sau khi đăng tuyển, hệ thống gửi <b>3–5 hồ sơ Trợ giảng phù hợp</b> trong vòng
+                                        24 giờ.</li>
                                     <li>Phụ huynh được chủ động xem chi tiết, liên hệ trực tiếp với Trợ giảng.</li>
-                                    <li>Nếu chưa hài lòng, phụ huynh có quyền yêu cầu hỗ trợ đề xuất thêm hồ sơ khác trong 48 giờ.</li>
+                                    <li>Nếu chưa hài lòng, phụ huynh có quyền yêu cầu hỗ trợ đề xuất thêm hồ sơ khác
+                                        trong 48 giờ.</li>
                                 </ul>
 
                                 <h4>Cam kết minh bạch thông tin</h4>
-                                <p>Mức thù lao (100.000đ – 180.000đ/buổi) và hình thức học (Trực tiếp / Online) luôn được hiển thị công khai. Mọi thỏa thuận chi tiết là giao dịch trực tiếp giữa gia đình và gia sư. Learn4Life không can thiệp vào các điều khoản cá nhân phát sinh ngoài nền tảng.</p>
+                                <p>Mức thù lao (100.000đ – 180.000đ/buổi) và hình thức học (Trực tiếp / Online) luôn
+                                    được hiển thị công khai. Mọi thỏa thuận chi tiết là giao dịch trực tiếp giữa gia
+                                    đình và gia sư. Learn4Life không can thiệp vào các điều khoản cá nhân phát sinh
+                                    ngoài nền tảng.</p>
                             </div>
                         </div>
                     </div>
@@ -180,10 +203,13 @@
                             </div>
                             <div class="policy-card-body">
                                 <h4>Ẩn thông tin liên hệ</h4>
-                                <p>Số điện thoại, email và địa chỉ nhà chi tiết được ẩn hoàn toàn khỏi danh sách công khai. Thông tin chỉ xuất hiện khi hai bên chủ động bấm chấp nhận kết nối.</p>
+                                <p>Số điện thoại, email và địa chỉ nhà chi tiết được ẩn hoàn toàn khỏi danh sách công
+                                    khai. Thông tin chỉ xuất hiện khi hai bên chủ động bấm chấp nhận kết nối.</p>
 
                                 <h4>Chính sách bảo vệ Beta Tester</h4>
-                                <p>Mọi thông tin cá nhân và giao dịch thử nghiệm trong bản Demo hoàn toàn được lưu giữ trong môi trường mô phỏng an toàn. Bạn có thể yêu cầu xóa dữ liệu cá nhân bất kỳ lúc nào.</p>
+                                <p>Mọi thông tin cá nhân và giao dịch thử nghiệm trong bản Demo hoàn toàn được lưu giữ
+                                    trong môi trường mô phỏng an toàn. Bạn có thể yêu cầu xóa dữ liệu cá nhân bất kỳ lúc
+                                    nào.</p>
                             </div>
                         </div>
                     </div>
@@ -195,8 +221,11 @@
                                 <span class="icon">💸</span> 4. Chính sách Hoàn tiền Giả lập (Test Mode)
                             </div>
                             <div class="policy-card-body">
-                                <p>Website đang hoạt động ở chế độ <b>TEST MODE</b>. Không có bất kỳ giao dịch tài chính thật nào được phát sinh.</p>
-                                <p>Trường hợp gặp lỗi không kích hoạt được gói dịch vụ mô phỏng trong 24 giờ, hệ thống sẽ thực hiện thao tác hoàn tiền giả lập 100% trên bảng điều khiển để đảm bảo luồng trải nghiệm e-commerce chuẩn hóa.</p>
+                                <p>Website đang hoạt động ở chế độ <b>TEST MODE</b>. Không có bất kỳ giao dịch tài chính
+                                    thật nào được phát sinh.</p>
+                                <p>Trường hợp gặp lỗi không kích hoạt được gói dịch vụ mô phỏng trong 24 giờ, hệ thống
+                                    sẽ thực hiện thao tác hoàn tiền giả lập 100% trên bảng điều khiển để đảm bảo luồng
+                                    trải nghiệm e-commerce chuẩn hóa.</p>
                             </div>
                         </div>
                     </div>
@@ -244,13 +273,78 @@
 
         function handlePayment(e) {
             e.preventDefault();
-            const planName = document.getElementById('checkoutName').textContent;
+            const selectedPlan = JSON.parse(localStorage.getItem('selected_plan'));
+            const planName = selectedPlan ? selectedPlan.name : document.getElementById('checkoutName').textContent;
+
+            let creditsToAdd = 0;
+            if (planName === 'Khởi Động') {
+                creditsToAdd = 5;
+            } else if (planName === 'Bứt Phá') {
+                creditsToAdd = 12;
+            }
+
+            let user = JSON.parse(localStorage.getItem('user_session')) || {
+                name: document.getElementById('userNameInput').value || 'Người dùng',
+                email: document.getElementById('emailInput').value || 'user@email.com',
+                role: 'parent'
+            };
+
+            user.activePlan = planName;
+
+            // Phân quyền & Cộng số lượt tương ứng
+            if (user.role === 'parent') {
+                if (planName === 'Kết Nối Nhanh') {
+                    // Mỗi gói Kết Nối Nhanh cộng 1 lượt đăng bài
+                    user.postCredits = (user.postCredits || 0) + 1;
+                }
+            } else {
+                user.applyCredits = (user.applyCredits || 0) + creditsToAdd;
+            }
+
+            localStorage.setItem('user_session', JSON.stringify(user));
+
+            // Đồng bộ vào danh sách registered_users
+            let users = JSON.parse(localStorage.getItem('registered_users')) || [];
+            const userIndex = users.findIndex(u => u.email === user.email);
+            if (userIndex !== -1) {
+                users[userIndex].activePlan = user.activePlan;
+                users[userIndex].applyCredits = user.applyCredits;
+                users[userIndex].postCredits = user.postCredits;
+                localStorage.setItem('registered_users', JSON.stringify(users));
+            }
+
             localStorage.removeItem('selected_plan');
             notify(`Thanh toán thành công gói ${planName}! Đang quay về trang chủ...`);
             setTimeout(() => {
                 window.location.href = 'index.html?payment=success';
             }, 2000);
         }
+        // Phân quyền theo role khi mua gói
+        if (user.role === 'parent') {
+            if (planName === 'Kết Nối Nhanh') {
+                user.hasPostingAccess = true; // Mở khóa mục gửi thông tin tìm gia sư
+            }
+        } else {
+            user.applyCredits = (user.applyCredits || 0) + creditsToAdd;
+        }
+
+        localStorage.setItem('user_session', JSON.stringify(user));
+
+        // Đồng bộ thông tin vào danh sách registered_users
+        let users = JSON.parse(localStorage.getItem('registered_users')) || [];
+        const userIndex = users.findIndex(u => u.email === user.email);
+        if (userIndex !== -1) {
+            users[userIndex].activePlan = user.activePlan;
+            users[userIndex].applyCredits = user.applyCredits;
+            users[userIndex].hasPostingAccess = user.hasPostingAccess;
+            localStorage.setItem('registered_users', JSON.stringify(users));
+        }
+
+        localStorage.removeItem('selected_plan');
+        notify(`Thanh toán thành công gói ${planName}! Đang quay về trang chủ...`);
+        setTimeout(() => {
+            window.location.href = 'index.html?payment=success';
+        }, 2000);
 
         function openPolicyModal() {
             document.getElementById('policyModal').classList.add('show');
