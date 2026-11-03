@@ -16,7 +16,8 @@
                 <a href="#classes" onclick="checkPolicyAndNavigate(event, '#classes')">Tìm lớp</a>
                 <a href="#profile" onclick="checkPolicyAndNavigate(event, '#profile')">Hồ sơ gia sư</a>
                 <a href="#plans" onclick="checkPolicyAndNavigate(event, '#plans')">Gói dịch vụ</a>
-                <a href="javascript:void(0)" onclick="openPolicyModal(false)">Policy / Disclaimer</a>
+                <a href="javascript:void(0)" onclick="openPolicyModal(false)" >Điều khoản &
+                    Miễn trừ trách nhiệm</a>
             </nav>
             <div class="nav-right" id="navRight">
                 <button class="btn btn-light" onclick="openAuthModal('login')">Đăng nhập</button>
@@ -661,72 +662,27 @@
 
     <footer class="footer">
         <div class="shell footer-inner">
-            <span class="brand brand-footer">learn<span>4</span>life<span>.</span></span>
-            <span>Kết nối tri thức, mở lối tương lai.</span>
-            <a href="javascript:void(0)" onclick="openPolicyModal(false)">Điều khoản & Miễn trừ trách nhiệm</a>
+            <!-- Cột 1: Thông tin thương hiệu -->
+            <div class="footer-col">
+                <a href="#home" class="brand brand-footer">learn<span>4</span>life<span>.</span></a>
+                <p class="footer-tagline">Kết nối tri thức, mở lối tương lai.</p>
+                <a href="javascript:void(0)" onclick="openPolicyModal(false)" class="footer-policy-link">Điều khoản &
+                    Miễn trừ trách nhiệm</a>
+            </div>
+
+            <!-- Cột 2: Thông tin liên hệ -->
+            <div class="footer-col footer-contact">
+                <b>Thông tin liên hệ</b>
+                <p>📞 <b>Hotline:</b> 0912-xxx-xxx</p>
+                <p>✉️ <b>Email:</b> <a href="mailto:learn4lifehanu@gmail.com">learn4lifehanu@gmail.com</a></p>
+                <p>📍 <b>Địa chỉ:</b> Trường Đại Học Hà Nội, KM9 Nguyễn Trãi, P. Trung Văn, Q. Nam Từ Liêm, Hà Nội</p>
+            </div>
+        </div>
+
+        <div class="shell footer-bottom">
             <span>© 2026 Learn4Life · Bản demo</span>
         </div>
     </footer>
-
-    <!-- Modal Policy -->
-    <div class="modal-backdrop" id="policyModal">
-        <div class="modal modal-policy">
-            <button class="close" id="policyCloseBtn" onclick="closePolicyModal()">×</button>
-            <div class="policy-header">
-                <span class="mode">📜 ĐIỀU KHOẢN & MIỄN TRỪ TRÁCH NHIỆM</span>
-                <h2>Chính sách & Quy định Sử dụng</h2>
-                <p class="policy-subtitle">Cập nhật lần cuối: 31/10/2026 · Vui lòng đọc kỹ trước khi bắt đầu trải nghiệm
-                </p>
-            </div>
-            <div class="policy-tabs">
-                <button class="policy-tab active" onclick="switchPolicyTab('all', this)">Tất cả</button>
-                <button class="policy-tab" onclick="switchPolicyTab('ta', this)">Gia sư / Trợ giảng</button>
-                <button class="policy-tab" onclick="switchPolicyTab('parent', this)">Phụ huynh</button>
-                <button class="policy-tab" onclick="switchPolicyTab('privacy', this)">Bảo mật</button>
-                <button class="policy-tab" onclick="switchPolicyTab('refund', this)">Hoàn tiền</button>
-            </div>
-            <div class="policy-content" id="policyContent">
-                <div class="policy-section" data-cat="ta">
-                    <div class="policy-card">
-                        <div class="policy-card-title"><span class="icon">🎓</span> 1. Chính sách Dành cho Gia sư & Trợ
-                            giảng</div>
-                        <div class="policy-card-body">
-                            <h4>Quy trình duyệt hồ sơ & cấp nhãn Verified</h4>
-                            <ul>
-                                <li><b>Tải hồ sơ:</b> Bạn cần tải CV bản chuẩn (PDF/DOC, tối đa 10MB) lên hệ thống.</li>
-                                <li><b>Duyệt nhãn uy tín:</b> Ban quản trị kiểm tra Thẻ sinh viên hoặc CCCD trực tuyến.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="policy-section" data-cat="parent">
-                    <div class="policy-card">
-                        <div class="policy-card-title"><span class="icon">👨‍👩‍👧‍👦</span> 2. Chính sách Dành cho Phụ
-                            huynh</div>
-                        <div class="policy-card-body">
-                            <h4>Quy định đăng lớp & chỉnh sửa</h4>
-                            <ul>
-                                <li>Mỗi <b>Gói Kết Nối Nhanh</b> tương đương với 1 lượt đăng bài tìm gia sư.</li>
-                                <li>Sau khi đăng, Phụ huynh được phép <b>chỉnh sửa thông tin tối đa 3 lần</b> qua giao
-                                    diện Pop-up.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="policy-footer">
-                <label class="policy-agree-check" id="agreeContainer">
-                    <input type="checkbox" id="policyAgreeCheckbox" onchange="toggleAgreeButton(this.checked)" />
-                    <span>Tôi đã đọc, hiểu rõ và đồng ý với các điều khoản dịch vụ trên.</span>
-                </label>
-                <div class="policy-footer-actions">
-                    <button class="btn btn-primary" id="btnAcceptPolicy" disabled
-                        onclick="acceptPolicyAndContinue()">Đồng ý & Tiếp tục</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Modal Pop-up Chỉnh Sửa Lớp Học -->
     <div class="modal-backdrop" id="editClassModal">
@@ -1738,6 +1694,134 @@
             }
         }
     </script>
+
+    <!-- Modal Pop-up Policy / Disclaimer -->
+    <div class="modal-backdrop" id="policyModal" onclick="if(event.target===this) closePolicyModal()">
+        <div class="modal modal-policy">
+            <div class="policy-header">
+                <button class="close" id="policyCloseBtn" onclick="closePolicyModal()">×</button>
+                <h2>Chính sách & Điều khoản dịch vụ</h2>
+                <p class="policy-subtitle">Learn4Life — Kết nối gia sư & gia đình</p>
+            </div>
+
+            <div class="policy-tabs">
+                <button class="policy-tab active" onclick="switchPolicyTab('all', this)">Tất cả</button>
+                <button class="policy-tab" onclick="switchPolicyTab('ta', this)">Trợ giảng / Gia sư</button>
+                <button class="policy-tab" onclick="switchPolicyTab('parent', this)">Phụ huynh</button>
+                <button class="policy-tab" onclick="switchPolicyTab('privacy', this)">Bảo mật & Người dùng</button>
+                <button class="policy-tab" onclick="switchPolicyTab('refund', this)">Hoàn tiền giả lập</button>
+            </div>
+
+            <div class="policy-content">
+                <!-- Section 1 -->
+                <div class="policy-card policy-section" data-cat="ta">
+                    <div class="policy-card-title">
+                        <span class="icon">🎓</span> 1. CHÍNH SÁCH DÀNH CHO TRỢ GIẢNG / GIA SƯ (TA POLICIES)
+                    </div>
+                    <div class="policy-card-body">
+                        <h4>Quy trình duyệt hồ sơ và cấp nhãn ✓ Verified</h4>
+                        <ul>
+                            <li><b>Tải hồ sơ:</b> Bạn cần tải CV bản chuẩn (PDF hoặc DOC, tối đa 10MB) lên hệ thống để
+                                ứng tuyển làm Trợ giảng.</li>
+                            <li><b>Duyệt nhãn uy tín:</b> Ban quản trị sẽ kiểm tra Thẻ sinh viên hoặc CCCD của bạn trực
+                                tuyến. Nếu thông tin đúng và bạn mua từ gói Khởi Động trở lên, tài khoản sẽ có nhãn ✓
+                                Verified để phụ huynh tin tưởng.</li>
+                            <li><b>Bảo mật giấy tờ:</b> Ảnh thẻ sinh viên/CCCD của bạn sẽ được xóa hoàn toàn ngay sau
+                                khi giảng viên chấm điểm xong dự án (Rule 6).</li>
+                        </ul>
+
+                        <h4>Chính sách hoàn trả lượt ứng tuyển (Credit Return Policy)</h4>
+                        <p>Khi bạn nhấn nút [Ứng tuyển] vào một lớp học, hệ thống sẽ tự động trả lại 100% lượt ứng tuyển
+                            vào tài khoản của bạn trong vòng 48 giờ nếu gặp các trường hợp sau:</p>
+                        <ul>
+                            <li>Phụ huynh hủy lớp hoặc đóng bài đăng do thay đổi kế hoạch riêng.</li>
+                            <li>Thông tin lớp học bị sai thực tế (sai địa chỉ, sai mức lương, sai môn học).</li>
+                            <li>Lớp đã có người nhận trước khi hồ sơ của bạn được xử lý.</li>
+                        </ul>
+
+                        <h4>Quy định về quà tặng Toolkit và Đẩy Top CV</h4>
+                        <ul>
+                            <li><b>Bộ Toolkit Trợ giảng:</b> Các mẫu báo cáo tuần và khung bài tập số sẽ được mở khóa
+                                cho bạn tải về ngay sau khi kích hoạt gói dịch vụ (Test Mode).</li>
+                            <li><b>Đẩy Top CV:</b> Hồ sơ của thành viên gói Bứt Phá sẽ tự động đứng đầu mục "Gợi ý dành
+                                cho bạn" trên Trang chủ trong 14 ngày để phụ huynh dễ thấy nhất.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Section 2 -->
+                <div class="policy-card policy-section" data-cat="parent">
+                    <div class="policy-card-title">
+                        <span class="icon">👨‍👩‍👧‍👦</span> 2. CHÍNH SÁCH DÀNH CHO PHỤ HUYNH (PARENT POLICIES)
+                    </div>
+                    <div class="policy-card-body">
+                        <h4>Thời gian giao nhận dịch vụ Fast-Match</h4>
+                        <ul>
+                            <li><b>Gửi yêu cầu:</b> Phụ huynh mua gói Kết Nối Nhanh (79.000đ) để đăng tin tìm trợ giảng
+                                cho con.</li>
+                            <li><b>Thời gian nhận CV:</b> Tính năng thông minh của hệ thống dựa vào môn học, lịch rảnh
+                                và khu vực để tự động chọn lọc. Hệ thống sẽ gửi 03–05 CV Trợ giảng đã xác thực (✓
+                                Verified) vào email của phụ huynh trong vòng 24 giờ.</li>
+                        </ul>
+
+                        <h4>Cam kết minh bạch thông tin</h4>
+                        <p>Mọi thông tin về mức thù lao (từ 100.000đ - 180.000đ/buổi) và hình thức học (Trực tiếp hoặc
+                            Online) luôn được hiển thị rõ ràng để trợ giảng xem xét trước khi bấm ứng tuyển.</p>
+                    </div>
+                </div>
+
+                <!-- Section 3 -->
+                <div class="policy-card policy-section" data-cat="privacy">
+                    <div class="policy-card-title">
+                        <span class="icon">🛡️</span> 3. CHÍNH SÁCH BẢO MẬT & BẢO VỆ NGƯỜI DÙNG (PRIVACY POLICY)
+                    </div>
+                    <div class="policy-card-body">
+                        <h4>Ẩn thông tin liên hệ để tránh làm phiền</h4>
+                        <ul>
+                            <li>Để giải quyết tình trạng bị lộ số điện thoại cho bên thứ ba (nhược điểm của các nhóm
+                                Facebook/Zalo), learn4life. ẩn hoàn toàn số điện thoại, email và địa chỉ nhà chi tiết
+                                trên bộ lọc công khai.</li>
+                            <li>Thông tin liên lạc chỉ hiện ra khi phụ huynh và trợ giảng chủ động bấm chấp nhận kết nối
+                                với nhau.</li>
+                        </ul>
+
+                        <h4>Bảo vệ người tham gia kiểm thử (Rule 6)</h4>
+                        <p>Để bảo vệ sự riêng tư của người dùng chạy thử web, mọi tên tuổi thật, lịch sử bấm nút, hay
+                            thời gian đặt hàng của bạn sẽ được mã hóa thành các ký hiệu số (T1, T2, T3...) trong bảng
+                            kết quả lưu trữ của nhóm.</p>
+                    </div>
+                </div>
+
+                <!-- Section 4 -->
+                <div class="policy-card policy-section" data-cat="refund">
+                    <div class="policy-card-title">
+                        <span class="icon">💳</span> 4. CHÍNH SÁCH HOÀN TIỀN GIẢ LẬP (REFUND POLICY)
+                    </div>
+                    <div class="policy-card-body">
+                        <ul>
+                            <li>Do website chạy ở chế độ TEST MODE, bạn không phải nhập thẻ ngân hàng thật và không bị
+                                mất tiền thật.</li>
+                            <li>Nếu hệ thống bị lỗi khiến tài khoản không nhận được tính năng của gói dịch vụ đã chọn
+                                trong vòng 24 giờ, hệ thống sẽ bấm nút hoàn trả giả lập 100% số tiền (49k, 79k, 99k)
+                                trên bảng điều khiển để đảm bảo quy trình trải nghiệm e-commerce diễn ra đúng chuẩn.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="policy-footer">
+                <label class="policy-agree-check">
+                    <input type="checkbox" id="policyAgreeCheckbox" onchange="toggleAgreeButton(this.checked)" />
+                    Tôi đã đọc và đồng ý với các Chính sách & Điều khoản của Learn4Life
+                </label>
+                <div class="policy-footer-actions">
+                    <button class="btn btn-primary" id="btnAcceptPolicy" onclick="acceptPolicyAndContinue()"
+                        disabled>Xác nhận & Tiếp tục</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
